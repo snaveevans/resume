@@ -1,49 +1,43 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby Minimal TypeScript Starter
-</h1>
+# Welcome to Remix + Cloudflare Workers!
 
-## 🚀 Quick start
+- 📖 [Remix docs](https://remix.run/docs)
+- 📖 [Remix Cloudflare docs](https://remix.run/guides/vite#cloudflare)
 
-1.  **Create a Gatsby site.**
+## Development
 
-    Use the Gatsby CLI to create a new site, specifying the minimal TypeScript starter.
+Run the dev server:
 
-    ```shell
-    # create a new Gatsby site using the minimal TypeScript starter
-    npm init gatsby -- -ts
-    ```
+```sh
+npm run dev
+```
 
-2.  **Start developing.**
+To run Wrangler:
 
-    Navigate into your new site’s directory and start it up.
+```sh
+npm run build
+npm start
+```
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+## Typegen
 
-3.  **Open the code and start customizing!**
+Generate types for your Cloudflare bindings in `wrangler.toml`:
 
-    Your site is now running at http://localhost:8000!
+```sh
+npm run typegen
+```
 
-    Edit `src/pages/index.tsx` to see your site update in real-time!
+You will need to rerun typegen whenever you make changes to `wrangler.toml`.
 
-4.  **Learn more**
+## Deployment
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
+If you don't already have an account, then [create a cloudflare account here](https://dash.cloudflare.com/sign-up) and after verifying your email address with Cloudflare, go to your dashboard and set up your free custom Cloudflare Workers subdomain.
 
-## 🚀 Quick start (Netlify)
+Once that's done, you should be able to deploy your app:
 
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
+```sh
+npm run deploy
+```
 
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
+## Styling
+
+This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
