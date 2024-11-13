@@ -1,4 +1,4 @@
-# Welcome to Remix + Cloudflare Workers!
+# Welcome to Remix + Cloudflare!
 
 - 📖 [Remix docs](https://remix.run/docs)
 - 📖 [Remix Cloudflare docs](https://remix.run/guides/vite#cloudflare)
@@ -15,7 +15,7 @@ To run Wrangler:
 
 ```sh
 npm run build
-npm start
+npm run start
 ```
 
 ## Typegen
@@ -30,9 +30,13 @@ You will need to rerun typegen whenever you make changes to `wrangler.toml`.
 
 ## Deployment
 
-If you don't already have an account, then [create a cloudflare account here](https://dash.cloudflare.com/sign-up) and after verifying your email address with Cloudflare, go to your dashboard and set up your free custom Cloudflare Workers subdomain.
+First, build your app for production:
 
-Once that's done, you should be able to deploy your app:
+```sh
+npm run build
+```
+
+Then, deploy your app to Cloudflare Pages:
 
 ```sh
 npm run deploy
