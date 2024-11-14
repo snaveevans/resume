@@ -19,8 +19,11 @@
     "@remix-run/cloudflare-pages": "^2.14.0",
     "@remix-run/react": "^2.14.0",
     "isbot": "^4.1.0",
+    "match-sorter": "^8.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sort-by": "^1.2.0",
+    "tiny-invariant": "^1.3.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241112.0",
