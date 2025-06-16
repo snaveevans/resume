@@ -1,0 +1,26 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>Hello!</h1>
+      <p>
+        Welcome to my site. As of June 15th, 2025 this is a work in progress. I
+        will be adding some blogs about my programming, shooting, drones,
+        gardening and anything else I decide to pick up. I'll also show case
+        some of my garage coding projects I'm working on.
+      </p>
+    </main>
+    <Footer />
+  </body>
+</html>
