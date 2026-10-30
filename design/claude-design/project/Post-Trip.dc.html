@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trip report post</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E6E2D6}
+a{color:#1E2320}a:hover{color:#A34A26}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+@media (max-width:760px){.g12>*{grid-column:1 / -1 !important}}
+</style>
+</helmet>
+<div style="background: #E6E2D6; color: #1E2320; font-family: Archivo, system-ui, sans-serif; font-size: 18px; line-height: 1.7">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 32px">
+<header style="display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between; padding: 24px 0; border-bottom: 2px solid #1E2320">
+<a href="Mesa-Home.dc.html" style="font-weight: 700; font-stretch: 80%; font-size: 22px; text-decoration: none">Tyler Evans</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px">
+<a href="Writing-Index.dc.html" style="text-decoration: none; padding: 12px 0; color: #A34A26">/writing</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/work</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/plarea</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/contact</a>
+</nav>
+</header>
+</div>
+
+<div role="img" aria-label="Full-bleed hero photo placeholder" style="height: 560px; background: #C9C2AE; display: flex; align-items: flex-end">
+<div style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 32px 40px; box-sizing: border-box">
+<p style="margin: 0 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #1E2320">trip · camping · [Date range] · [Hero photo, full-bleed landscape]</p>
+<h1 style="margin: 0; max-width: 900px; font-weight: 800; font-stretch: 72%; font-size: clamp(48px, 7vw, 96px); line-height: 0.92; letter-spacing: -0.015em">[Place name or trip title]</h1>
+</div>
+</div>
+
+<div style="background: #1E2320; color: #E6E2D6">
+<dl class="g12" style="max-width: 1200px; margin: 0 auto; padding: 20px 32px; row-gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.5">
+<div style="grid-column: 1 / span 3"><dt style="color: #C9C2AE; font-size: 12px">where</dt><dd style="margin: 0">[Area, UT]</dd></div>
+<div style="grid-column: 4 / span 2"><dt style="color: #C9C2AE; font-size: 12px">distance</dt><dd style="margin: 0">[n] mi</dd></div>
+<div style="grid-column: 6 / span 2"><dt style="color: #C9C2AE; font-size: 12px">gain</dt><dd style="margin: 0">[n] ft</dd></div>
+<div style="grid-column: 8 / span 2"><dt style="color: #C9C2AE; font-size: 12px">nights</dt><dd style="margin: 0">[n]</dd></div>
+<div style="grid-column: 10 / span 3"><dt style="color: #C9C2AE; font-size: 12px">rig / mode</dt><dd style="margin: 0">[ATV · trailer · on foot]</dd></div>
+</dl>
+</div>
+
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 32px">
+<article class="g12" style="padding: 64px 0 80px; row-gap: 56px">
+<p style="grid-column: 3 / span 7; margin: 0; font-size: 22px; line-height: 1.5; font-stretch: 95%">[Dek: who went, the plan, and how it actually went.]</p>
+
+<figure class="g12" style="grid-column: 1 / -1; margin: 0; row-gap: 12px">
+<div style="grid-column: 1 / span 8; min-width: 0">
+<svg role="img" aria-label="Route elevation profile placeholder" viewBox="0 0 800 200" preserveAspectRatio="none" style="display: block; width: 100%; height: 200px; background: #D8D3C3">
+<path d="M0 170 L60 160 L120 140 L180 150 L240 110 L300 90 L360 100 L420 60 L480 70 L540 40 L600 80 L660 110 L720 130 L800 150 L800 200 L0 200 Z" fill="#8E8A72"></path>
+<path d="M0 170 L60 160 L120 140 L180 150 L240 110 L300 90 L360 100 L420 60 L480 70 L540 40 L600 80 L660 110 L720 130 L800 150" fill="none" stroke="#A34A26" stroke-width="3"></path>
+</svg>
+<figcaption style="display: flex; justify-content: space-between; padding-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650"><span>[start · elev]</span><span>route elevation profile (from GPX)</span><span>[end · elev]</span></figcaption>
+</div>
+<div role="img" aria-label="Map placeholder" style="grid-column: 9 / span 4; height: 200px; background: #D8D3C3; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650">[Map / route]</div>
+</figure>
+
+<section aria-label="Day by day" style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 48px">
+<div class="g12" style="row-gap: 16px">
+<h2 style="grid-column: 1 / span 2; margin: 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 13px; color: #A34A26; padding-top: 10px; border-top: 2px solid #1E2320">day 1</h2>
+<div style="grid-column: 3 / span 7; border-top: 2px solid #1E2320; padding-top: 8px">
+<h3 style="margin: 0 0 8px; font-weight: 800; font-stretch: 75%; font-size: 30px; line-height: 1.1">[Day headline]</h3>
+<p style="margin: 0 0 24px">[What happened, conditions, where you camped.]</p>
+<div role="img" aria-label="Photo placeholder" style="aspect-ratio: 3 / 2; background: #D8D3C3; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650">[Photo, 3:2]</div>
+</div>
+<p style="grid-column: 10 / span 3; margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; color: #4E5650; padding-top: 12px">[n] mi · [n] ft<br>low [n]° / high [n]°<br>camp: [spot]</p>
+</div>
+<div class="g12" style="row-gap: 16px">
+<h2 style="grid-column: 1 / span 2; margin: 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 13px; color: #A34A26; padding-top: 10px; border-top: 2px solid #1E2320">day 2</h2>
+<div style="grid-column: 3 / span 7; border-top: 2px solid #1E2320; padding-top: 8px">
+<h3 style="margin: 0 0 8px; font-weight: 800; font-stretch: 75%; font-size: 30px; line-height: 1.1">[Day headline]</h3>
+<p style="margin: 0">[Day detail.]</p>
+</div>
+<p style="grid-column: 10 / span 3; margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; color: #4E5650; padding-top: 12px">[n] mi · [n] ft<br>low [n]° / high [n]°</p>
+</div>
+</section>
+
+<div class="g12" style="grid-column: 1 / -1; row-gap: 24px">
+<div role="img" aria-label="Wide photo placeholder" style="grid-column: 1 / -1; aspect-ratio: 21 / 9; background: #D8D3C3; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650">[Panorama, 21:9]</div>
+</div>
+
+<section aria-label="Gear" class="g12" style="grid-column: 1 / -1; row-gap: 32px">
+<h2 style="grid-column: 1 / -1; margin: 0; padding-bottom: 8px; border-bottom: 2px solid #1E2320; font-weight: 800; font-stretch: 75%; font-size: 36px">Gear notes</h2>
+<div style="grid-column: 1 / span 6">
+<p style="margin: 0 0 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">worked</p>
+<ul style="margin: 0; padding: 0; list-style: none"><li style="padding: 10px 0; border-bottom: 1px solid #BDB6A2"><b style="font-weight: 600">[Item]</b> — [why]</li><li style="padding: 10px 0; border-bottom: 1px solid #BDB6A2"><b style="font-weight: 600">[Item]</b> — [why]</li></ul>
+</div>
+<div style="grid-column: 7 / span 6">
+<p style="margin: 0 0 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">didn’t</p>
+<ul style="margin: 0; padding: 0; list-style: none"><li style="padding: 10px 0; border-bottom: 1px solid #BDB6A2"><b style="font-weight: 600">[Item]</b> — [why]</li><li style="padding: 10px 0; border-bottom: 1px solid #BDB6A2"><b style="font-weight: 600">[Item]</b> — [why]</li></ul>
+</div>
+</section>
+
+<aside style="grid-column: 3 / span 7; padding: 20px 24px; background: #D8D3C3">
+<p style="margin: 0 0 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em; color: #4E5650">NEXT TIME</p>
+<p style="margin: 0">[Season, access, water, permits, what you’d change.]</p>
+</aside>
+</article>
+
+<nav aria-label="More posts" class="g12" style="border-top: 2px solid #1E2320; padding: 24px 0 48px; row-gap: 12px">
+<a href="#" style="grid-column: 3 / span 4; padding: 12px 0; text-decoration: none"><span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">← prev</span><span style="font-weight: 600; font-stretch: 90%">[Previous post title]</span></a>
+<a href="#" style="grid-column: 7 / span 4; padding: 12px 0; text-decoration: none; text-align: right"><span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">next →</span><span style="font-weight: 600; font-stretch: 90%">[Next post title]</span></a>
+</nav>
+</div>
+
+<footer style="background: #1E2320; color: #C9C2AE">
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px">
+<span>© [Year] Tyler Evans · Eagle Mountain, UT</span>
+<a href="#" style="color: #E6E2D6">rss</a>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":3300}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

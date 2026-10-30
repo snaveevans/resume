@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deep dive post</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E6E2D6}
+a{color:#1E2320}a:hover{color:#A34A26}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+@media (max-width:760px){.g12>*{grid-column:1 / -1 !important}}
+</style>
+</helmet>
+<div style="background: #E6E2D6; color: #1E2320; font-family: Archivo, system-ui, sans-serif; font-size: 18px; line-height: 1.7">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 32px">
+
+<header style="display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between; padding: 24px 0; border-bottom: 2px solid #1E2320">
+<a href="Mesa-Home.dc.html" style="font-weight: 700; font-stretch: 80%; font-size: 22px; text-decoration: none">Tyler Evans</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px">
+<a href="Writing-Index.dc.html" style="text-decoration: none; padding: 12px 0; color: #A34A26">/writing</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/work</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/plarea</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/contact</a>
+</nav>
+</header>
+
+<section class="g12" style="padding: 72px 0 0">
+<div style="grid-column: 3 / span 8">
+<p style="margin: 0 0 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650">deep dive · software · [Date] · [n] min</p>
+<h1 style="margin: 0; font-weight: 800; font-stretch: 72%; font-size: clamp(48px, 6.4vw, 84px); line-height: 0.95; letter-spacing: -0.015em">[Deep-dive title: the problem, stated plainly]</h1>
+<p style="margin: 28px 0 0; font-size: 22px; line-height: 1.45; font-stretch: 95%">[Dek: what you tried, what you learned, who should care.]</p>
+</div>
+</section>
+
+<article class="g12" style="padding: 56px 0 80px; row-gap: 32px">
+<nav aria-label="On this page" style="grid-column: 1 / span 2; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; display: flex; flex-direction: column; gap: 2px; align-self: start; border-top: 2px solid #1E2320; padding-top: 12px">
+<span style="color: #4E5650; padding-bottom: 6px">on this page</span>
+<a href="#" style="text-decoration: none; padding: 6px 0; color: #A34A26">tl;dr</a>
+<a href="#" style="text-decoration: none; padding: 6px 0">context</a>
+<a href="#" style="text-decoration: none; padding: 6px 0">approach</a>
+<a href="#" style="text-decoration: none; padding: 6px 0">implementation</a>
+<a href="#" style="text-decoration: none; padding: 6px 0">tradeoffs</a>
+<a href="#" style="text-decoration: none; padding: 6px 0">takeaways</a>
+</nav>
+
+<div style="grid-column: 3 / span 7; min-width: 0">
+<aside style="padding: 20px 24px; background: #D8D3C3; margin-bottom: 40px">
+<p style="margin: 0 0 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em; color: #4E5650">TL;DR</p>
+<ul style="margin: 0; padding-left: 20px">
+<li>[The answer in one line.]</li>
+<li>[The key constraint or surprise.]</li>
+<li>[What you’d recommend.]</li>
+</ul>
+</aside>
+
+<h2 style="margin: 0 0 12px; font-weight: 800; font-stretch: 75%; font-size: 34px">Context</h2>
+<p style="margin: 0 0 24px">[What was the situation, what was broken or missing, and why it mattered. Keep employer specifics generic.]</p>
+
+<h2 style="margin: 48px 0 12px; font-weight: 800; font-stretch: 75%; font-size: 34px">Approach</h2>
+<p style="margin: 0 0 24px">[Options considered and why you picked this one.]</p>
+<div style="overflow-x: auto; margin: 0 0 32px">
+<table style="width: 100%; min-width: 480px; border-collapse: collapse; font-size: 15px">
+<thead><tr style="text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650"><th scope="col" style="font-weight: 500; padding: 0 0 8px; border-bottom: 2px solid #1E2320">Option</th><th scope="col" style="font-weight: 500; padding: 0 0 8px; border-bottom: 2px solid #1E2320">For</th><th scope="col" style="font-weight: 500; padding: 0 0 8px; border-bottom: 2px solid #1E2320">Against</th></tr></thead>
+<tbody>
+<tr><td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #BDB6A2; font-weight: 600">[Option A]</td><td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #BDB6A2">[Pro]</td><td style="padding: 12px 0; border-bottom: 1px solid #BDB6A2">[Con]</td></tr>
+<tr><td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #BDB6A2; font-weight: 600">[Option B] ✓</td><td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #BDB6A2">[Pro]</td><td style="padding: 12px 0; border-bottom: 1px solid #BDB6A2">[Con]</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 style="margin: 48px 0 12px; font-weight: 800; font-stretch: 75%; font-size: 34px">Implementation</h2>
+<p style="margin: 0 0 24px">[Walk through the core of it.]</p>
+<figure style="margin: 0 0 32px; border-top: 4px solid #A34A26">
+<pre style="margin: 0; background: #1E2320; color: #E2DDCF; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.7; padding: 24px; overflow-x: auto"><code><span style="color: #D99A6C">// [the smallest snippet that shows the idea]</span>
+<span style="color: #D99A6C">export function</span> <span style="color: #A9BC94">example</span>() {
+  <span style="color: #D99A6C">return</span> <span style="color: #A9BC94">"…"</span>;
+}</code></pre>
+<figcaption style="padding: 8px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[filename.ts] · <a href="#">[repo or gist ↗]</a></figcaption>
+</figure>
+<div role="img" aria-label="Diagram placeholder" style="aspect-ratio: 16 / 9; background: #D8D3C3; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650; margin: 0 0 32px">[Optional diagram or screenshot]</div>
+
+<h2 style="margin: 48px 0 12px; font-weight: 800; font-stretch: 75%; font-size: 34px">Tradeoffs</h2>
+<p style="margin: 0 0 24px">[What this costs, where it breaks, what you’d watch for.]</p>
+
+<h2 style="margin: 48px 0 12px; font-weight: 800; font-stretch: 75%; font-size: 34px">Takeaways</h2>
+<ol style="margin: 0 0 24px; padding-left: 24px">
+<li>[Takeaway]</li>
+<li>[Takeaway]</li>
+<li>[Takeaway]</li>
+</ol>
+</div>
+
+<aside style="grid-column: 10 / span 3; font-size: 13px; line-height: 1.5; color: #4E5650; align-self: start; display: flex; flex-direction: column; gap: 24px; padding-top: 220px">
+<p style="margin: 0; border-top: 1px solid #1E2320; padding-top: 8px">[Margin note: aside, source, or footnote next to the paragraph it annotates.]</p>
+<p style="margin: 0; border-top: 1px solid #1E2320; padding-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px">stack · [TypeScript, …]<br>tried with · [model / tool]</p>
+</aside>
+</article>
+
+<nav aria-label="More posts" class="g12" style="border-top: 2px solid #1E2320; padding: 24px 0 48px; row-gap: 12px">
+<a href="#" style="grid-column: 3 / span 4; padding: 12px 0; text-decoration: none"><span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">← prev</span><span style="font-weight: 600; font-stretch: 90%">[Previous post title]</span></a>
+<a href="#" style="grid-column: 7 / span 4; padding: 12px 0; text-decoration: none; text-align: right"><span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">next →</span><span style="font-weight: 600; font-stretch: 90%">[Next post title]</span></a>
+</nav>
+</div>
+
+<footer style="background: #1E2320; color: #C9C2AE">
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px">
+<span>© [Year] Tyler Evans · Eagle Mountain, UT</span>
+<a href="#" style="color: #E6E2D6">rss</a>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2700}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Writing index</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E6E2D6}
+a{color:#1E2320}a:hover{color:#A34A26}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+@media (max-width:760px){.g12>*{grid-column:1 / -1 !important}}
+</style>
+</helmet>
+<div style="background: #E6E2D6; color: #1E2320; font-family: Archivo, system-ui, sans-serif; font-size: 17px; line-height: 1.55">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 32px">
+
+<header style="display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between; padding: 24px 0; border-bottom: 2px solid #1E2320">
+<a href="Mesa-Home.dc.html" style="font-weight: 700; font-stretch: 80%; font-size: 22px; text-decoration: none">Tyler Evans</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px">
+<a href="#" style="text-decoration: none; padding: 12px 0; color: #A34A26">/writing</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/work</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/plarea</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/contact</a>
+</nav>
+</header>
+
+<section class="g12" style="padding: 72px 0 40px; row-gap: 24px; align-items: end">
+<h1 style="grid-column: 1 / span 7; margin: 0; font-weight: 800; font-stretch: 72%; font-size: clamp(56px, 7vw, 96px); line-height: 0.92; letter-spacing: -0.015em">Writing</h1>
+<p style="grid-column: 8 / span 5; margin: 0; font-size: 20px; line-height: 1.45; font-stretch: 95%">[One line on what gets written here: software, AI, and everything built or done outside of it.]</p>
+</section>
+
+<nav aria-label="Filter by topic" style="display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 0 24px; border-bottom: 2px solid #1E2320; font-family: 'JetBrains Mono', monospace; font-size: 13px">
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; background: #1E2320; color: #E6E2D6; text-decoration: none">all</a>
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #BDB6A2; text-decoration: none">software</a>
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #BDB6A2; text-decoration: none">ai</a>
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #BDB6A2; text-decoration: none">woodworking</a>
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #BDB6A2; text-decoration: none">camping</a>
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #BDB6A2; text-decoration: none">shooting</a>
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #BDB6A2; text-decoration: none">atv</a>
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid #BDB6A2; text-decoration: none">[more]</a>
+</nav>
+
+<section aria-label="Latest" class="g12" style="padding: 40px 0; row-gap: 24px; border-bottom: 2px solid #1E2320">
+<div role="img" aria-label="Photo placeholder for latest post" style="grid-column: 1 / span 7; aspect-ratio: 16 / 9; background: #D8D3C3; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650">[Latest post photo, 16:9]</div>
+<div style="grid-column: 8 / span 5; align-self: end; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">latest · trip · camping · [Date]</p>
+<a href="Post-Trip.dc.html" style="font-weight: 800; font-stretch: 75%; font-size: 40px; line-height: 1.02; text-decoration: none">[Latest post title]</a>
+<p style="margin: 0; color: #4E5650">[Dek, one or two lines.]</p>
+</div>
+</section>
+
+<section aria-label="2026" class="g12" style="padding: 32px 0; row-gap: 0">
+<h2 style="grid-column: 1 / span 2; margin: 18px 0 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 13px; color: #4E5650">2026</h2>
+<div style="grid-column: 3 / span 10">
+<a href="Post-DeepDive.dc.html" style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 160px; gap: 16px; padding: 18px 0; border-bottom: 1px solid #BDB6A2; text-decoration: none; align-items: baseline"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[Mon DD]</span><span style="font-size: 20px; font-weight: 600; font-stretch: 90%">[Deep-dive title]</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650; text-align: right">deep dive · software</span></a>
+<a href="Post-Build.dc.html" style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 160px; gap: 16px; padding: 18px 0; border-bottom: 1px solid #BDB6A2; text-decoration: none; align-items: baseline"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[Mon DD]</span><span style="font-size: 20px; font-weight: 600; font-stretch: 90%">[Build log title]</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650; text-align: right">build · woodworking</span></a>
+<a href="Post-Note.dc.html" style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 160px; gap: 16px; padding: 18px 0; border-bottom: 1px solid #BDB6A2; text-decoration: none; align-items: baseline"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[Mon DD]</span><span style="font-size: 20px; font-weight: 600; font-stretch: 90%">[Field note title]</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650; text-align: right">note · ai</span></a>
+<a href="Post-Review.dc.html" style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 160px; gap: 16px; padding: 18px 0; border-bottom: 1px solid #BDB6A2; text-decoration: none; align-items: baseline"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[Mon DD]</span><span style="font-size: 20px; font-weight: 600; font-stretch: 90%">[Review title]</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650; text-align: right">review · shooting</span></a>
+<a href="Post-Trip.dc.html" style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 160px; gap: 16px; padding: 18px 0; border-bottom: 1px solid #BDB6A2; text-decoration: none; align-items: baseline"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[Mon DD]</span><span style="font-size: 20px; font-weight: 600; font-stretch: 90%">[Trip report title]</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650; text-align: right">trip · atv</span></a>
+</div>
+</section>
+
+<section aria-label="2025" class="g12" style="padding: 0 0 80px; row-gap: 0">
+<h2 style="grid-column: 1 / span 2; margin: 18px 0 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 13px; color: #4E5650">[Year]</h2>
+<div style="grid-column: 3 / span 10">
+<a href="#" style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 160px; gap: 16px; padding: 18px 0; border-bottom: 1px solid #BDB6A2; text-decoration: none; align-items: baseline"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[Mon DD]</span><span style="font-size: 20px; font-weight: 600; font-stretch: 90%">[Post title]</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650; text-align: right">[format] · [topic]</span></a>
+<a href="#" style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 160px; gap: 16px; padding: 18px 0; border-bottom: 1px solid #BDB6A2; text-decoration: none; align-items: baseline"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[Mon DD]</span><span style="font-size: 20px; font-weight: 600; font-stretch: 90%">[Post title]</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650; text-align: right">[format] · [topic]</span></a>
+</div>
+</section>
+</div>
+
+<footer style="background: #1E2320; color: #C9C2AE">
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px">
+<span>© [Year] Tyler Evans · Eagle Mountain, UT</span>
+<a href="#" style="color: #E6E2D6">rss</a>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2100}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

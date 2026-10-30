@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mesa — Blog post</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..800;1,62..125,400..800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E6E2D6}
+a{color:#1E2320}a:hover{color:#A34A26}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+@media (max-width:760px){.g12>*{grid-column:1 / -1 !important}}
+</style>
+</helmet>
+<div style="background: #E6E2D6; color: #1E2320; font-family: Archivo, system-ui, sans-serif; font-size: 18px; line-height: 1.7">
+
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 32px">
+<header style="display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between; padding: 24px 0; border-bottom: 2px solid #1E2320">
+<a href="Mesa-Home.dc.html" style="font-weight: 700; font-stretch: 80%; font-size: 22px; letter-spacing: 0.01em; text-decoration: none">Tyler Evans</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.04em">
+<a href="#" style="text-decoration: none; padding: 12px 0; color: {{accent}}">/writing</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/work</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/plarea</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/contact</a>
+</nav>
+</header>
+
+<article class="g12" style="padding: 72px 0 96px; row-gap: 0">
+<div style="grid-column: 3 / span 8; min-width: 0">
+<p style="margin: 0 0 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650">/writing/[slug] · [Date] · [n] min</p>
+<h1 style="margin: 0; font-weight: 800; font-stretch: 72%; font-size: clamp(48px, 6.4vw, 84px); line-height: 0.95; letter-spacing: -0.015em">[Post title, six to ten words long]</h1>
+<p style="margin: 28px 0 0; font-size: 22px; line-height: 1.45; font-stretch: 95%">[Dek: a one or two sentence summary that sets up the argument of the post.]</p>
+</div>
+
+<div style="grid-column: 3 / span 7; min-width: 0; padding-top: 56px">
+<p style="margin: 0 0 24px">[Opening paragraph. Body is Archivo at its normal width, 18px on 1.7; headings use the condensed end of the same family.]</p>
+<p style="margin: 0 0 24px">[Second paragraph, with an <a href="#" style="color: {{accent}}">inline link</a> and some <code style="font-family: 'JetBrains Mono', monospace; font-size: 15px; background: #D8D3C3; padding: 2px 5px">inline code</code>.]</p>
+
+<h2 style="margin: 56px 0 12px; font-weight: 800; font-stretch: 75%; font-size: 34px">[Section heading]</h2>
+<p style="margin: 0 0 24px">[Paragraph leading into a code sample.]</p>
+
+<figure style="margin: 0 0 32px; border-top: 4px solid {{accent}}">
+<pre style="margin: 0; background: #1E2320; color: #E2DDCF; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.7; padding: 24px; overflow-x: auto"><code><span style="color: #D99A6C">export function</span> <span style="color: #A9BC94">debounce</span>&lt;T <span style="color: #D99A6C">extends</span> (...args: any[]) =&gt; void&gt;(fn: T, ms = 200) {
+  <span style="color: #D99A6C">let</span> t: ReturnType&lt;typeof setTimeout&gt; | undefined;
+  <span style="color: #D99A6C">return</span> (...args: Parameters&lt;T&gt;) =&gt; {
+    clearTimeout(t);
+    t = setTimeout(() =&gt; fn(...args), ms);
+  };
+}</code></pre>
+<figcaption style="padding: 10px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">debounce.ts</figcaption>
+</figure>
+
+<aside style="margin: 40px 0; padding: 24px 28px; background: #D8D3C3">
+<p style="margin: 0 0 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em; color: #4E5650">NOTE</p>
+<p style="margin: 0">[A callout for an aside, caveat or tip.]</p>
+</aside>
+
+<p style="margin: 0 0 24px">[Closing paragraph.]</p>
+</div>
+</article>
+
+<nav aria-label="More posts" class="g12" style="border-top: 2px solid #1E2320; padding: 24px 0 48px; row-gap: 12px">
+<a href="#" style="grid-column: 3 / span 4; padding: 12px 0; text-decoration: none"><span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">← prev</span><span style="font-weight: 600; font-stretch: 90%">[Previous post title]</span></a>
+<a href="#" style="grid-column: 7 / span 4; padding: 12px 0; text-decoration: none; text-align: right"><span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">next →</span><span style="font-weight: 600; font-stretch: 90%">[Next post title]</span></a>
+</nav>
+</div>
+
+<footer style="background: #1E2320; color: #C9C2AE">
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px">
+<span>© [Year] Tyler Evans · Eagle Mountain, UT</span>
+<a href="#" style="color: #E6E2D6">rss</a>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#A34A26","options":["#A34A26","#4F5E44","#2E5566","#7A5A1C"]},"$preview":{"width":1280,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#A34A26' };
+  }
+}
+</script>
+</body>
+</html>

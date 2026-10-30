@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Review post</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E6E2D6}
+a{color:#1E2320}a:hover{color:#A34A26}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+@media (max-width:760px){.g12>*{grid-column:1 / -1 !important}}
+</style>
+</helmet>
+<div style="background: #E6E2D6; color: #1E2320; font-family: Archivo, system-ui, sans-serif; font-size: 18px; line-height: 1.7">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 32px">
+<header style="display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between; padding: 24px 0; border-bottom: 2px solid #1E2320">
+<a href="Mesa-Home.dc.html" style="font-weight: 700; font-stretch: 80%; font-size: 22px; text-decoration: none">Tyler Evans</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px">
+<a href="Writing-Index.dc.html" style="text-decoration: none; padding: 12px 0; color: #A34A26">/writing</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/work</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/plarea</a>
+<a href="#" style="text-decoration: none; padding: 12px 0">/contact</a>
+</nav>
+</header>
+
+<section class="g12" style="padding: 72px 0 48px; row-gap: 32px; align-items: start">
+<div style="grid-column: 1 / span 7">
+<p style="margin: 0 0 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650">review · shooting · [Date] · owned [n] months</p>
+<h1 style="margin: 0; font-weight: 800; font-stretch: 72%; font-size: clamp(48px, 6.4vw, 84px); line-height: 0.95; letter-spacing: -0.015em">[Product name]: [one-phrase take]</h1>
+<p style="margin: 28px 0 0; font-size: 22px; line-height: 1.45; font-stretch: 95%">[Dek: what you used it for and for how long.]</p>
+</div>
+<div role="img" aria-label="Product photo placeholder" style="grid-column: 8 / span 5; aspect-ratio: 4 / 3; background: #D8D3C3; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650">[Product photo, 4:3]</div>
+</section>
+
+<section aria-label="Verdict" class="g12" style="background: #A34A26; color: #F4EFE4; padding: 32px; row-gap: 20px; align-items: start">
+<div style="grid-column: 1 / span 6">
+<p style="margin: 0 0 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.06em">VERDICT</p>
+<p style="margin: 0; font-weight: 700; font-stretch: 80%; font-size: 34px; line-height: 1.1">[Buy it / skip it / buy it if… — one sentence.]</p>
+</div>
+<div style="grid-column: 7 / span 3; font-size: 16px; line-height: 1.5"><p style="margin: 0 0 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px">good for</p><p style="margin: 0">[Use case]</p></div>
+<div style="grid-column: 10 / span 3; font-size: 16px; line-height: 1.5"><p style="margin: 0 0 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px">not for</p><p style="margin: 0">[Use case]</p></div>
+</section>
+
+<article class="g12" style="padding: 64px 0 80px; row-gap: 56px">
+<section aria-label="Specs" style="grid-column: 1 / span 4">
+<h2 style="margin: 0 0 8px; padding-bottom: 8px; border-bottom: 2px solid #1E2320; font-weight: 800; font-stretch: 75%; font-size: 28px">Specs</h2>
+<dl style="margin: 0; font-size: 15px">
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #BDB6A2"><dt style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[spec]</dt><dd style="margin: 0; text-align: right">[value]</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #BDB6A2"><dt style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[spec]</dt><dd style="margin: 0; text-align: right">[value]</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #BDB6A2"><dt style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[spec]</dt><dd style="margin: 0; text-align: right">[value]</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #BDB6A2"><dt style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">price paid</dt><dd style="margin: 0; text-align: right">$[n]</dd></div>
+</dl>
+</section>
+
+<div style="grid-column: 6 / span 7; min-width: 0">
+<h2 style="margin: 0 0 12px; font-weight: 800; font-stretch: 75%; font-size: 34px">How I used it</h2>
+<p style="margin: 0 0 24px">[Context, conditions, how much use it’s seen.]</p>
+
+<h2 style="margin: 48px 0 12px; font-weight: 800; font-stretch: 75%; font-size: 34px">Results</h2>
+<p style="margin: 0 0 20px">[What you measured and how.]</p>
+<div style="overflow-x: auto; margin-bottom: 8px">
+<table style="width: 100%; min-width: 460px; border-collapse: collapse; font-size: 15px; font-variant-numeric: tabular-nums">
+<thead><tr style="text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650"><th scope="col" style="font-weight: 500; padding: 0 0 8px; border-bottom: 2px solid #1E2320">[Condition / load]</th><th scope="col" style="font-weight: 500; padding: 0 0 8px; border-bottom: 2px solid #1E2320; text-align: right">[Metric 1]</th><th scope="col" style="font-weight: 500; padding: 0 0 8px; border-bottom: 2px solid #1E2320; text-align: right">[Metric 2]</th><th scope="col" style="font-weight: 500; padding: 0 0 8px; border-bottom: 2px solid #1E2320; text-align: right">[Metric 3]</th></tr></thead>
+<tbody>
+<tr><td style="padding: 10px 0; border-bottom: 1px solid #BDB6A2; font-weight: 600">[Row]</td><td style="border-bottom: 1px solid #BDB6A2; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px">[n]</td><td style="border-bottom: 1px solid #BDB6A2; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px">[n]</td><td style="border-bottom: 1px solid #BDB6A2; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px">[n]</td></tr>
+<tr><td style="padding: 10px 0; border-bottom: 1px solid #BDB6A2; font-weight: 600">[Row]</td><td style="border-bottom: 1px solid #BDB6A2; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px">[n]</td><td style="border-bottom: 1px solid #BDB6A2; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px">[n]</td><td style="border-bottom: 1px solid #BDB6A2; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px">[n]</td></tr>
+<tr><td style="padding: 10px 0; border-bottom: 1px solid #BDB6A2; font-weight: 600">[Row]</td><td style="border-bottom: 1px solid #BDB6A2; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px">[n]</td><td style="border-bottom: 1px solid #BDB6A2; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px">[n]</td><td style="border-bottom: 1px solid #BDB6A2; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px">[n]</td></tr>
+</tbody>
+</table>
+</div>
+<p style="margin: 0 0 24px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[Test conditions: distance, temp, equipment, sample size.]</p>
+<div role="img" aria-label="Results photo placeholder" style="aspect-ratio: 16 / 9; background: #D8D3C3; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4E5650; margin-bottom: 24px">[Target / results photo]</div>
+</div>
+
+<section aria-label="Pros and cons" class="g12" style="grid-column: 1 / -1; row-gap: 32px">
+<div style="grid-column: 1 / span 6">
+<h2 style="margin: 0 0 8px; padding-bottom: 8px; border-bottom: 2px solid #1E2320; font-weight: 800; font-stretch: 75%; font-size: 28px">Good</h2>
+<ul style="margin: 0; padding: 0; list-style: none"><li style="padding: 10px 0; border-bottom: 1px solid #BDB6A2">+ [Pro]</li><li style="padding: 10px 0; border-bottom: 1px solid #BDB6A2">+ [Pro]</li><li style="padding: 10px 0; border-bottom: 1px solid #BDB6A2">+ [Pro]</li></ul>
+</div>
+<div style="grid-column: 7 / span 6">
+<h2 style="margin: 0 0 8px; padding-bottom: 8px; border-bottom: 2px solid #1E2320; font-weight: 800; font-stretch: 75%; font-size: 28px">Not so good</h2>
+<ul style="margin: 0; padding: 0; list-style: none"><li style="padding: 10px 0; border-bottom: 1px solid #BDB6A2">− [Con]</li><li style="padding: 10px 0; border-bottom: 1px solid #BDB6A2">− [Con]</li></ul>
+</div>
+</section>
+
+<div style="grid-column: 3 / span 7">
+<h2 style="margin: 0 0 12px; font-weight: 800; font-stretch: 75%; font-size: 34px">Alternatives</h2>
+<p style="margin: 0">[What else you considered and when you’d pick it instead.]</p>
+<p style="margin: 24px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">[Disclosure: bought with my own money / provided by …]</p>
+</div>
+</article>
+
+<nav aria-label="More posts" class="g12" style="border-top: 2px solid #1E2320; padding: 24px 0 48px; row-gap: 12px">
+<a href="#" style="grid-column: 3 / span 4; padding: 12px 0; text-decoration: none"><span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">← prev</span><span style="font-weight: 600; font-stretch: 90%">[Previous post title]</span></a>
+<a href="#" style="grid-column: 7 / span 4; padding: 12px 0; text-decoration: none; text-align: right"><span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4E5650">next →</span><span style="font-weight: 600; font-stretch: 90%">[Next post title]</span></a>
+</nav>
+</div>
+
+<footer style="background: #1E2320; color: #C9C2AE">
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px">
+<span>© [Year] Tyler Evans · Eagle Mountain, UT</span>
+<a href="#" style="color: #E6E2D6">rss</a>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":3000}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
