@@ -1,68 +1,26 @@
-# Astro Starter Kit: Blog
+# tylerevans.co
 
-```sh
-npm create astro@latest -- --template blog
-```
+An Astro site for Tyler Evans's work and writing, built as static files for Cloudflare Pages.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/blog)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/blog/devcontainer.json)
+Run `npm ci`, then `npm run dev` for local development. `npm run build` writes production output to `dist/`; `npm run build:fixtures` builds the isolated test site. Run `npm run verify` for the full verification suite.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Posts live in `src/content/blog/` as Markdown or MDX. Each post needs a title, date, format and topic. If no description is supplied, the post title is used as its metadata and RSS description. Supported formats are `deep dive`, `build`, `trip`, `review`, and `note`. Deep dives need a TL;DR heading, builds need a numbered step heading, trips need a day heading, reviews need a verdict heading, and notes need prose. Mark unpublished posts with `draft: true`; future-dated posts are excluded until their date.
 
-![blog](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
+Future-dated posts appear only after a rebuild on or after their date. Drafts and future posts are still validated at build time.
 
-Features:
+Post frontmatter rejects unknown fields. Optional frontmatter fields are:
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+- All formats: `description` (text); `hero: { src, alt }` for a hero image.
+- Deep dive: `onThisPage: true`. Write code using fenced Markdown blocks and tradeoffs using a Markdown table under a `## Tradeoffs` heading.
+- Build: `specs: [{ label, value }]`, `cutList: [text]`, `tools: [text]`, and `plans` (absolute URL).
+- Trip: `stats: [{ label, value }]`, `elevation: { src, alt }`, and `gear: [text]`.
+- Review: `specs` and `results`, each `[{ label, value }]`, plus `pros: [text]` and `cons: [text]`.
+- Note: `link` (absolute URL) and `photo: { src, alt }`.
 
-## 🚀 Project Structure
+Image `src` values should point to a real site asset, and `alt` should describe it. Use `## TL;DR`, `## Verdict`, or `## Day 1` and follow each required heading with content. Build steps are second- or third-level headings followed by content, such as `## Step 1: Cut boards` or `## Milling stock`; headings such as Introduction, Tools, Materials, Cut list, Plans, and Conclusion do not count as steps. A heading inside a code fence is not a required section.
 
-Inside of your Astro project, you'll see the following folders and files:
+For a build cut list, use `cutList: [{ part, qty, dimensions, material }]`; `steps: [{ photo: { src, alt } }]` attaches an optional photo to each successive Markdown step. `changes: [text]` supplies the “What I’d do differently” callout. Use `specs: [{ label, value }]` for the time, cost, difficulty and material strip.
 
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
+A trip can supply `stats` as label/value rows for where, distance, gain, nights and rig/mode; `elevation: { src, alt, start, end }` and `map: { src, alt }` supply the route row. `days: [{ meta: [text] }]` adds metadata to successive day headings. Use `gear: { worked: [text], didnt: [text] }` and `nextTime: text` for gear and the closing callout.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Reviews can supply `hero`, `goodFor`, `notFor`, `pricePaid`, `testConditions`, `alternatives` and `disclosure` alongside their `specs`, `results`, `pros` and `cons`. Deep dives can supply `marginNotes: [text]`; when `onThisPage` is true, the navigation is generated from all h2 headings. The `topic/` path prefix is reserved for topic filters and cannot be used as a post path. A fenced code block can supply a filename using `title="filename.ts"` or `filename="filename.ts"` after its language.

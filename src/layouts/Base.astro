@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+interface Props { title: string; wide?: boolean; description?: string; notFound?: boolean; }
+const descriptions: Record<string, string> = {
+  Home: 'Staff engineer and front-end architect. Building web platforms in TypeScript, writing about the craft, starting Plarea.',
+  Work: 'Experience and education of Tyler Evans, Staff Software Engineer and Front End Architect.',
+  About: 'Tyler Evans on software, family, making things, and the outdoors.',
+  Plarea: 'We make small worlds to get lost in, and thoughtful tools to help bring new ones to life.',
+  Contact: 'Find Tyler Evans on GitHub and LinkedIn.',
+  'Not found': 'Off trail — return to the home page.',
+};
+const { title, wide = false, notFound = false, description = descriptions[Astro.props.title] ?? `Writing by Tyler Evans: ${Astro.props.title}` } = Astro.props;
+const canonical = new URL(notFound ? '/404.html' : Astro.url.pathname, Astro.site ?? 'https://www.tylerevans.co');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Tyler Evans</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} · Tyler Evans`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={`${title} · Tyler Evans`} />
+    <meta name="twitter:description" content={description} />
+    <link rel="alternate" type="application/rss+xml" title="Tyler Evans — Writing" href="/rss.xml" />
+  </head>
+  <body class:list={[{ "resume-page": Astro.url.pathname === "/work" || Astro.url.pathname === "/work/" }]}>
+    <Header />
+    <main class:list={[wide ? "wide-main" : "container"]}><slot /></main>
+    <Footer full={Astro.url.pathname === '/'} />
+  </body>
+</html>

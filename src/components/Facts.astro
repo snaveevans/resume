@@ -1,0 +1,7 @@
+---
+interface Props { home?: boolean }
+const { home = false } = Astro.props;
+---
+<div class="facts-strip" data-facts>
+  {home ? <div class="container facts-grid home-facts"><span>Eagle Mountain, UT</span><span>Now · O.C. Tanner</span><span>Building · Plarea</span><span>TypeScript · React.js</span></div> : <dl class="container facts-grid"><div><dt>based</dt><dd>Eagle Mountain, UT</dd></div><div><dt>day job</dt><dd>Staff Software Engineer · O.C. Tanner</dd></div><div><dt>building</dt><dd>Plarea</dd></div><div><dt>skills</dt><dd>TypeScript · React.js</dd></div></dl>}
+</div>

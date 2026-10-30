@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import { roles, education, links, plarea } from '../data/resume';
+---
+<Base title="Work">
+  <section class="resume-hero g12">
+    <div class="resume-intro">
+      <p class="eyebrow">/work</p>
+      <h1>Tyler Evans</h1>
+      <p class="resume-title">Staff Software Engineer · Front End Architect</p>
+    </div>
+    <dl class="resume-contact">
+      <div><dt>based</dt><dd>Eagle Mountain, UT</dd></div>
+      <div><dt>github</dt><dd><a href={links.github}>snaveevans</a></dd></div>
+      <div><dt>linkedin</dt><dd><a href={links.linkedin}>Tyler Evans</a></dd></div>
+    </dl>
+  </section>
+  <section class="resume-section" aria-labelledby="experience">
+    <h2 id="experience">Experience</h2>
+    {roles.map(role => <article class="resume-entry g12">
+      <p class="entry-date">{role.dates}</p>
+      <div class="entry-main"><h3>{role.title}</h3><p>{role.company}{role.location && ` · ${role.location}`}</p></div>
+      {role.skills && <p class="entry-skills">{role.skills.map((skill, i) => <>{i > 0 && <br />}{skill}</>)}</p>}
+    </article>)}
+  </section>
+  <section class="resume-section" aria-labelledby="projects">
+    <h2 id="projects">Projects</h2>
+    <div class="resume-entry g12"><p class="entry-date accent">founder</p><div class="entry-main"><h3>Plarea</h3><p>{plarea.lead} <a href={links.plarea}>plarea.dev ↗</a></p></div></div>
+  </section>
+  <section class="resume-bottom g12" aria-label="Skills and education">
+    <div class="skills"><h2>Skills</h2><p>PostgreSQL · Node.js · TypeScript · React.js · Web Architecture · Front-End Development</p></div>
+    <div class="education"><h2>Education</h2><div class="education-entry"><div><strong>{education.degree}</strong><p>{education.school}</p></div><span>{education.dates}</span></div></div>
+  </section>
+</Base>

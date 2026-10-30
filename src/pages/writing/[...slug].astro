@@ -1,0 +1,65 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { publishedPosts, postUrl, displayDate, type Post } from '../../lib/posts';
+export async function getStaticPaths() {
+  const posts = await publishedPosts();
+  return posts.map((post, index) => ({ params: { slug: post.id }, props: { post, previous: posts[index + 1], next: posts[index - 1] } }));
+}
+const { post, previous, next } = Astro.props as { post: Post; previous?: Post; next?: Post };
+const { Content, headings } = await render(post);
+const data = post.data;
+const trip = data.format === 'trip';
+const pageHeadings = headings.filter(h => h.depth === 2);
+const gear = Array.isArray(data.gear) ? { worked: data.gear, didnt: [] } : data.gear;
+---
+<Base title={data.title} description={data.description ?? data.title} wide={trip}>
+  <article class:list={['post', `format-${data.format.replace(' ', '-')}`]}>
+    {trip ? <>
+      <header class:list={['trip-cover', { 'trip-cover-plain': !data.hero }]}>
+        {data.hero && <img class="trip-cover-image" src={data.hero.src} alt={data.hero.alt} data-optional-section />}
+        <div class="container trip-cover-title"><p class="post-meta"><a href="/writing">/writing</a> · <time datetime={data.date.toISOString()}>{displayDate(data.date)}</time> · {data.format} · {data.topic}</p><h1>{data.title}</h1></div>
+      </header>
+      {data.stats && <div class="trip-facts" data-optional-section><dl class="container post-specs">{data.stats.map(item => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl></div>}
+    </> : <>
+      <header class="post-heading g12"><div><p class="post-meta"><a href="/writing">/writing</a> · <time datetime={data.date.toISOString()}>{displayDate(data.date)}</time> · {data.format} · {data.topic}</p><h1>{data.title}</h1>{data.description && <p class="post-dek">{data.description}</p>}</div></header>
+      {data.hero && data.format !== 'review' && <figure class="post-hero" data-optional-section><img src={data.hero.src} alt={data.hero.alt} /></figure>}
+      {data.stats && <dl class="post-specs" data-optional-section>{data.stats.map(item => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
+      {data.specs && data.format !== 'review' && <dl class="post-specs" data-optional-section>{data.specs.map(item => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
+    </>}
+    <div class:list={[{ container: trip }, 'post-inner']}>
+      {trip && data.description && <p class="trip-dek">{data.description}</p>}
+      {(data.elevation || data.map) && <div class="trip-route g12" data-optional-section>
+        {data.elevation && <figure><img src={data.elevation.src} alt={data.elevation.alt} /><figcaption>{data.elevation.start && <span>{data.elevation.start}</span>}<span>Route Elevation profile</span>{data.elevation.end && <span>{data.elevation.end}</span>}</figcaption></figure>}
+        {data.map && <img class="trip-map" src={data.map.src} alt={data.map.alt} />}
+      </div>}
+      {(data.tools || data.cutList || data.plans) && <div class="post-tools-grid g12">
+        {data.tools && <section class="post-optional tools-section" data-optional-section><h2>Tools</h2><ul>{data.tools.map(item => <li>{item}</li>)}</ul></section>}
+        {(data.cutList || data.plans) && <section class="post-optional cut-section" data-optional-section>{data.cutList && <><h2>Cut list</h2><div class="table-scroll"><table><thead><tr><th>Part</th><th>Qty</th><th>Dimensions</th><th>Material</th></tr></thead><tbody>{data.cutList.map(item => typeof item === 'string' ? <tr><td>{item}</td><td></td><td></td><td></td></tr> : <tr><td>{item.part}</td><td>{item.qty}</td><td>{item.dimensions}</td><td>{item.material}</td></tr>)}</tbody></table></div></>}{data.plans && <a class="plans-button" href={data.plans}>Plans ↗</a>}</section>}
+      </div>}
+      <div class="post-layout g12">
+        {(data.specs || data.pricePaid) && data.format === 'review' && <section class="post-optional review-specs" data-optional-section><h2>Specs</h2><dl>{data.specs?.map(item => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}{data.pricePaid && <div><dt>price paid</dt><dd>{data.pricePaid}</dd></div>}</dl></section>}
+        {data.onThisPage && data.format === 'deep dive' && <nav class="post-toc" aria-label="On this page" data-optional-section><strong>On this page</strong>{pageHeadings.map((item, index) => <a href={`#${item.slug}`} aria-current={index === 0 ? 'location' : undefined}>{item.text}</a>)}</nav>}
+        <div class="post-prose"><Content /></div>
+        {data.marginNotes && <aside class="margin-notes" data-optional-section>{data.marginNotes.map(note => <p>{note}</p>)}</aside>}
+      </div>
+      {data.results && <section class="post-optional review-results" data-optional-section><h2>Results</h2><div class="table-scroll"><table><thead><tr><th>Condition</th><th>Result</th></tr></thead><tbody>{data.results.map(item => <tr><td>{item.label}</td><td>{item.value}</td></tr>)}</tbody></table></div>{data.testConditions && <p class="table-caption">{data.testConditions}</p>}</section>}
+      {data.testConditions && !data.results && <p class="table-caption" data-optional-section>{data.testConditions}</p>}
+      {gear && <section class="post-optional gear-notes" data-optional-section><h2>Gear notes</h2><div class="g12">{!!gear.worked?.length && <div class="gear-worked"><p class="gear-label">worked</p><ul>{gear.worked.map(item => <li>{item}</li>)}</ul></div>}{!!gear.didnt?.length && <div class="gear-didnt"><p class="gear-label">didn’t</p><ul>{gear.didnt.map(item => <li>{item}</li>)}</ul></div>}</div></section>}
+      {data.nextTime && <aside class="post-extra-callout" data-optional-section><p class="eyebrow">NEXT TIME</p><p>{data.nextTime}</p></aside>}
+      {data.changes && <aside class="post-extra-callout" data-optional-section><p class="eyebrow">WHAT I’D DO DIFFERENTLY</p><ul>{data.changes.map(change => <li>{change}</li>)}</ul></aside>}
+      {(data.pros || data.cons) && <div class="post-pros-cons g12">
+        {data.pros && <section class="post-optional pros-section" data-optional-section><h2>Pros</h2><ul>{data.pros.map(item => <li>+ {item}</li>)}</ul></section>}
+        {data.cons && <section class="post-optional cons-section" data-optional-section><h2>Cons</h2><ul>{data.cons.map(item => <li>− {item}</li>)}</ul></section>}
+      </div>}
+      {data.alternatives && <section class="review-alternatives" data-optional-section><h2>Alternatives</h2><p>{data.alternatives}</p></section>}
+      {data.disclosure && <p class="table-caption review-disclosure" data-optional-section>{data.disclosure}</p>}
+      {data.link && <p data-optional-section><a href={data.link}>{data.link} ↗</a></p>}
+      {data.photo && <figure class="post-optional" data-optional-section><img src={data.photo.src} alt={data.photo.alt} /></figure>}
+    </div>
+  </article>
+  {(previous || next) && <div class:list={[{ container: trip }]}><nav class="post-neighbors g12" aria-label="More posts">
+    {previous && <a class="post-previous" href={postUrl(previous)}><span>← Previous</span><strong>{previous.data.title}</strong></a>}
+    {next && <a class="post-next" href={postUrl(next)}><span>Next →</span><strong>{next.data.title}</strong></a>}
+  </nav></div>}
+</Base>
