@@ -1,4 +1,4 @@
-import { isRequiredHeading } from './post-headings.mjs';
+import { buildStepHeadings, isSectionHeading } from './post-headings.mjs';
 const wrap = (name, classes, children, properties = {}) => ({ type: 'container', data: { hName: name, hProperties: { className: classes, ...properties } }, children });
 const paragraph = (value, cls) => wrap('p', [cls], [{ type: 'text', value }]);
 function wrapMedia(node) {
@@ -16,19 +16,20 @@ export function calloutPlugin() {
   return (tree, file) => {
     const data = file.data?.astro?.frontmatter ?? {};
     const format = data.format;
+    const buildSteps = format === 'build' ? buildStepHeadings(tree.children) : new Set();
     wrapMedia(tree);
     let count = 0;
     let hoisted = false;
     for (let i = 0; i < tree.children.length; i++) {
       const node = tree.children[i];
       if (node.type !== 'heading') continue;
-      const matches = isRequiredHeading(format, node);
+      const matches = isSectionHeading(format, node, buildSteps);
       const target = matches && !hoisted && (format === 'deep dive' || format === 'review');
       const step = matches && format === 'build';
       const day = matches && format === 'trip';
       if (!target && !step && !day) continue;
       let end = i + 1;
-      while (end < tree.children.length && !(tree.children[end].type === 'heading' && tree.children[end].depth <= node.depth)) end++;
+      while (end < tree.children.length && !(tree.children[end].type === 'heading' && (tree.children[end].depth <= node.depth || isSectionHeading(format, tree.children[end], buildSteps)))) end++;
       const children = tree.children.slice(i, end);
       // All supported section levels use the board's h2 styling.
       node.depth = 2;
@@ -39,8 +40,7 @@ export function calloutPlugin() {
         if (format === 'review') {
           if (data.goodFor) callout.children.push(paragraph(`Good for · ${data.goodFor}`, 'verdict-detail'));
           if (data.notFor) callout.children.push(paragraph(`Not for · ${data.notFor}`, 'verdict-detail'));
-          const photo = data.hero ? [{ type: 'image', url: data.hero.src, alt: data.hero.alt }] : [];
-          replacement = wrap('div', ['review-verdict-top'], [callout, ...photo]);
+          replacement = wrap('div', ['review-verdict-top'], [callout]);
         } else replacement = callout;
         tree.children.splice(i, end - i); tree.children.unshift(replacement); i = 0; continue;
       }

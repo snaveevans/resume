@@ -3,7 +3,12 @@ import AxeBuilder from '@axe-core/playwright';
 
 const port = Number(process.env.VERIFY_PORT_BASE || 18788);
 const base = `http://127.0.0.1:${port}`;
-const routes = ['/', '/writing', '/work', '/about', '/plarea', '/contact', '/404.html', `http://127.0.0.1:${port + 1}/writing/fixture-note`];
+const fixture = `http://127.0.0.1:${port + 1}`;
+const routes = [
+  '/', '/writing', '/work', '/about', '/plarea', '/contact', '/404.html',
+  `${fixture}/writing/fixture-note`, `${fixture}/writing/topic/software`,
+  ...['build', 'trip', 'review', 'deep-dive', 'note'].map(format => `${fixture}/writing/fixture-populated-${format}`),
+];
 const sections = ['/writing', '/work', '/about', '/plarea', '/contact'];
 
 test('S-01 primary navigation and current section', async ({ page }) => {
@@ -22,6 +27,9 @@ test('S-01 primary navigation and current section', async ({ page }) => {
 });
 
 test('S-02 phone layout', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 844 });
+  await page.goto('/work');
+  expect(await page.locator('main.container').evaluate(el => el.getBoundingClientRect().left + parseFloat(getComputedStyle(el).paddingLeft))).toBe(Math.max(32, (await page.evaluate(() => document.documentElement.clientWidth) - 1264) / 2 + 32));
   await page.setViewportSize({ width: 390, height: 844 });
   for (const route of routes) {
     await page.goto(route);

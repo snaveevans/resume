@@ -13,11 +13,12 @@ for (const file of files.filter(f => f.endsWith('.html'))) {
   const html = await readFile(file, 'utf8');
   const text = visible(parse(html));
   if (/lorem ipsum|\bTODO\b/i.test(text) || placeholders.some(p => text.includes(p))) failures.push(`${file}: placeholder`);
-  for (const match of html.matchAll(/(?:href|src)="(\/[^"#?]*)"/g)) {
-    const target = join(root, decodeURIComponent(match[1]));
+  for (const match of html.matchAll(/(?:href|src)="(\/[^\"]*)"/g)) {
+    const path = match[1].split(/[?#]/, 1)[0];
+    const target = join(root, decodeURIComponent(path));
     let exists = false;
     for (const candidate of [target, join(target, 'index.html'), target + '.html']) { try { if ((await stat(candidate)).isFile()) { exists = true; break; } } catch {} }
-    if (!exists) failures.push(`${file}: missing ${match[1]}`);
+    if (!exists) failures.push(`${file}: missing ${path}`);
   }
 }
 assert.deepEqual(failures, [], 'static output issues');

@@ -27,7 +27,10 @@ test('S-17 starter posts are gone', async ({ page }) => {
   const titles = (await page.locator('.writing-row strong, .latest-content h2 a').allTextContents()).map(title => title.trim().toLowerCase());
   for (const title of starterTitles) expect(titles).not.toContain(title.toLowerCase());
   for (const slug of starterRoutes) expect(links.map(link => link.path)).not.toContain(`/writing/${slug}`);
-  if (process.env.VERIFY_PUBLISHED_CHILD) await expect(page.getByRole('link', { name: /My First Post/ })).toBeVisible();
+  if (process.env.VERIFY_PUBLISHED_CHILD) {
+    await expect(page.locator('main a[href="/writing/published-control"]')).toContainText('My First Post');
+    await expect(page.locator('main a[href="/writing/phrase-control"]')).toContainText('A My First Post Retrospective');
+  }
   await page.goto(empty + '/writing');
   await expect(page.locator('main')).toContainText(/nothing.*published|no.*posts.*yet/i);
   await expect(page.getByText('Latest', { exact: true })).toHaveCount(0);
@@ -44,6 +47,8 @@ test('S-18 writing index grouping and single post', async ({ page }) => {
   const year2026 = page.getByRole('region', { name: '2026', exact: true });
   const year2025 = page.getByRole('region', { name: '2025', exact: true });
   const rows = (region: typeof year2026) => region.locator('.writing-row');
+  const positions = await rows(year2026).first().evaluate(row => ['time', 'strong', 'small'].map(selector => row.querySelector(selector)!.getBoundingClientRect().left));
+  expect(positions[0]).toBeLessThan(positions[1]); expect(positions[1]).toBeLessThan(positions[2]);
   await expect(rows(year2026).locator('strong')).toHaveText(['Fixture Build', 'Fixture Trip', 'Fixture Alpha', 'Fixture Beta']);
   await expect(rows(year2026).locator('small')).toHaveText(['build · software', 'trip · camping', 'note · software', 'note · software']);
   await expect(rows(year2025).locator('strong')).toHaveText(['Fixture Review', 'Fixture Note', 'Fixture Populated Build', 'Fixture Populated Trip', 'Fixture Populated Review', 'Fixture Populated Deep Dive', 'Fixture Populated Note', 'Fixture Array Gear', 'Fixture Single']);
@@ -73,6 +78,10 @@ test('S-20 five post formats', async ({ page }) => {
     await expect(page.locator('main')).toContainText(/202[56]/); await expect(page.locator('main')).toContainText(/software|camping/i);
     await expect(page.locator('main')).toContainText(new RegExp(slug.replace('-', '[ -]'), 'i'));
   }
+  await page.goto(`${fixture}/writing/fixture-populated-build`);
+  const heading = page.locator('.build-step .step-text h2').first();
+  await expect(heading).toBeVisible();
+  await expect(heading).toHaveCSS('border-top-width', '0px');
 });
 test('S-21 optional sections absent for minimal posts', async ({ page }) => {
   for (const [slug, required] of [['deep-dive', 'TL;DR'], ['build', 'Step 1'], ['trip', 'Day 1'], ['review', 'Verdict'], ['note', 'Fixture note prose']]) {
@@ -87,16 +96,18 @@ test('S-21 optional sections absent for minimal posts', async ({ page }) => {
   for (const [slug, expected] of [
     ['build', ['Material', 'Pine', 'Cut list', 'Fixture board', 'Tools', 'Fixture saw', 'Plans']],
     ['trip', ['Distance', 'Fixture distance', 'Elevation profile', 'Gear notes', 'Fixture gear']],
-    ['review', ['Specs', 'Fixture model', 'Results', 'Fixture result', 'Pros', 'Fixture pro', 'Cons', 'Fixture con']],
+    ['review', ['Specs', 'Fixture model', 'Results', 'Fixture result', 'Good', 'Fixture pro', 'Not so good', 'Fixture con']],
     ['deep-dive', ['On this page', 'fixtureCode', 'Tradeoffs', 'Fixture tradeoff']],
     ['note', ['example.com/note']],
   ] as const) {
     expect((await page.goto(`${fixture}/writing/fixture-populated-${slug}`))?.status()).toBe(200);
     for (const value of expected) await expect(page.locator('main')).toContainText(value);
-    if (slug !== 'trip') await expect(page.locator('.post-heading > div')).toHaveCSS('grid-column-start', '3');
+    if (slug !== 'trip') await expect(page.locator('.post-heading > div').first()).toHaveCSS('grid-column-start', ['build', 'review'].includes(slug) ? '1' : '3');
     await expect(page.locator('.post-neighbors .post-previous')).toHaveCSS('grid-column-start', '3');
     await expect(page.locator('.post-neighbors .post-next')).toHaveCSS('grid-column-start', '7');
     if (slug === 'build') {
+      const alignment = await page.evaluate(() => { const hero = document.querySelector('.post-hero')!.getBoundingClientRect(), specs = document.querySelector('.build-facts')!.getBoundingClientRect(); return { gap: specs.top - hero.bottom, width: specs.width, viewport: document.documentElement.clientWidth }; });
+      expect(alignment.gap).toBe(0); expect(alignment.width).toBe(alignment.viewport);
       await expect(page.locator('dl.post-specs')).toContainText('Pine'); await expect(page.locator('img[alt="Build hero"]')).toBeVisible();
       const ratio = await page.locator('.post-hero').evaluate(el => { const rect = el.getBoundingClientRect(); return rect.width / rect.height; }); expect(ratio).toBeCloseTo(16 / 9, 2);
       await expect(page.getByRole('link', { name: /Plans/ })).toHaveAttribute('href', 'https://example.com/plans');
@@ -111,7 +122,8 @@ test('S-21 optional sections absent for minimal posts', async ({ page }) => {
       await expect(page.locator('.trip-day .day-meta')).toContainText('Fixture day distance'); await expect(page.locator('.gear-notes')).toContainText('Fixture failed gear'); await expect(page.locator('main')).toContainText('Fixture next time');
       const width = await page.locator('.trip-cover').evaluate(el => el.getBoundingClientRect().width); expect(width).toBe(await page.evaluate(() => document.documentElement.clientWidth));
       await expect(page.locator('.trip-cover-title')).toHaveCSS('background-image', 'none');
-      await expect(page.locator('.trip-cover-title')).toHaveCSS('background-color', 'rgb(230, 226, 214)');
+      await expect(page.locator('.trip-cover-title')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+      const overlap = await page.locator('.trip-cover-title').evaluate(el => { const title = el.getBoundingClientRect(), image = el.parentElement!.querySelector('img')!.getBoundingClientRect(); return title.top < image.bottom && title.bottom > image.top; }); expect(overlap).toBe(true);
       const tripAlignment = await page.evaluate(() => {
         const content = document.querySelector('.post-inner')!, strip = document.querySelector('.trip-facts .post-specs')!, nav = document.querySelector('.post-neighbors')!, last = nav.querySelector('a:last-child')!, footer = document.querySelector('footer')!;
         return { content: content.getBoundingClientRect().left + parseFloat(getComputedStyle(content).paddingLeft), stats: strip.getBoundingClientRect().left + parseFloat(getComputedStyle(strip).paddingLeft), rule: nav.getBoundingClientRect().left, bottom: footer.getBoundingClientRect().top - last.getBoundingClientRect().bottom };
@@ -133,7 +145,8 @@ test('S-21 optional sections absent for minimal posts', async ({ page }) => {
     }
     if (slug === 'review') {
       await expect(page.locator('.review-results table')).toContainText('Fixture result'); await expect(page.locator('.review-results .table-caption')).toContainText('Fixture test conditions');
-      await expect(page.locator('.review-verdict-top img[alt="Review photo"]')).toBeVisible(); await expect(page.locator('aside.post-callout.verdict')).toContainText('Fixture verdict in context');
+      await expect(page.locator('.post-heading img[alt="Review photo"]')).toBeVisible(); await expect(page.locator('aside.post-callout.verdict')).toContainText('Fixture verdict in context');
+      await expect(page.locator('.review-results td:last-child').first()).toHaveCSS('text-align', 'right');
       for (const text of ['Fixture good use', 'Fixture poor use', '$15', 'Fixture alternative', 'Fixture disclosure']) await expect(page.locator('main')).toContainText(text);
       const specsHeading = await page.locator('.review-specs h2').boundingBox(), contextHeading = await page.locator('.review-body h2').first().boundingBox(), contextParagraph = await page.locator('.review-body p').first().boundingBox();
       expect(specsHeading && contextHeading && contextParagraph).toBeTruthy();
@@ -146,7 +159,7 @@ test('S-21 optional sections absent for minimal posts', async ({ page }) => {
   }
   await page.goto(fixture + '/writing/fixture-array-gear');
   await expect(page.locator('.gear-notes')).toContainText('Fixture array gear');
-  expect(await page.locator('.gear-notes .g12').evaluate(el => [...el.childNodes].some(node => node.nodeType === Node.TEXT_NODE && node.textContent?.trim() === '0'))).toBe(false);
+  await expect(page.locator('.gear-notes')).not.toContainText('0');
   await expect(page.locator('.gear-didnt')).toHaveCount(0);
   await expect(page.locator('.day-label h2')).toHaveText('Day 1');
   await expect(page.locator('.day-label h2')).toHaveCSS('color', 'rgb(163, 74, 38)');

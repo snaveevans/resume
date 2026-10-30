@@ -10,10 +10,12 @@ const { post, previous, next } = Astro.props as { post: Post; previous?: Post; n
 const { Content, headings } = await render(post);
 const data = post.data;
 const trip = data.format === 'trip';
+const build = data.format === 'build';
 const pageHeadings = headings.filter(h => h.depth === 2);
+const noteLink = data.link ? new URL(data.link) : undefined;
 const gear = Array.isArray(data.gear) ? { worked: data.gear, didnt: [] } : data.gear;
 ---
-<Base title={data.title} description={data.description ?? data.title} wide={trip}>
+<Base title={data.title} description={data.description ?? data.title} wide={trip || build}>
   <article class:list={['post', `format-${data.format.replace(' ', '-')}`]}>
     {trip ? <>
       <header class:list={['trip-cover', { 'trip-cover-plain': !data.hero }]}>
@@ -21,13 +23,19 @@ const gear = Array.isArray(data.gear) ? { worked: data.gear, didnt: [] } : data.
         <div class="container trip-cover-title"><p class="post-meta"><a href="/writing">/writing</a> · <time datetime={data.date.toISOString()}>{displayDate(data.date)}</time> · {data.format} · {data.topic}</p><h1>{data.title}</h1></div>
       </header>
       {data.stats && <div class="trip-facts" data-optional-section><dl class="container post-specs">{data.stats.map(item => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl></div>}
+    </> : build ? <>
+      <div class="container build-top">
+        <header class="post-heading g12"><div><p class="post-meta"><a href="/writing">/writing</a> · <time datetime={data.date.toISOString()}>{displayDate(data.date)}</time> · {data.format} · {data.topic}</p><h1>{data.title}</h1></div>{data.description && <p class="post-dek">{data.description}</p>}</header>
+        {data.hero && <figure class="post-hero" data-optional-section><img src={data.hero.src} alt={data.hero.alt} /></figure>}
+      </div>
+      {data.specs && <div class="build-facts" data-optional-section><dl class="container post-specs">{data.specs.map(item => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl></div>}
     </> : <>
-      <header class="post-heading g12"><div><p class="post-meta"><a href="/writing">/writing</a> · <time datetime={data.date.toISOString()}>{displayDate(data.date)}</time> · {data.format} · {data.topic}</p><h1>{data.title}</h1>{data.description && <p class="post-dek">{data.description}</p>}</div></header>
+      <header class="post-heading g12">{data.format === 'note' && <p class="note-meta">{data.format} · {data.topic}<br /><time datetime={data.date.toISOString()}>{displayDate(data.date)}</time></p>}<div>{data.format !== 'note' && <p class="post-meta"><a href="/writing">/writing</a> · <time datetime={data.date.toISOString()}>{displayDate(data.date)}</time> · {data.format} · {data.topic}</p>}<h1>{data.title}</h1>{data.description && <p class="post-dek">{data.description}</p>}</div>{data.format === 'review' && data.hero && <img class="review-photo" src={data.hero.src} alt={data.hero.alt} data-optional-section />}</header>
       {data.hero && data.format !== 'review' && <figure class="post-hero" data-optional-section><img src={data.hero.src} alt={data.hero.alt} /></figure>}
       {data.stats && <dl class="post-specs" data-optional-section>{data.stats.map(item => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
       {data.specs && data.format !== 'review' && <dl class="post-specs" data-optional-section>{data.specs.map(item => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
     </>}
-    <div class:list={[{ container: trip }, 'post-inner']}>
+    <div class:list={[{ container: trip || build }, 'post-inner']}>
       {trip && data.description && <p class="trip-dek">{data.description}</p>}
       {(data.elevation || data.map) && <div class="trip-route g12" data-optional-section>
         {data.elevation && <figure><img src={data.elevation.src} alt={data.elevation.alt} /><figcaption>{data.elevation.start && <span>{data.elevation.start}</span>}<span>Route Elevation profile</span>{data.elevation.end && <span>{data.elevation.end}</span>}</figcaption></figure>}
@@ -49,16 +57,16 @@ const gear = Array.isArray(data.gear) ? { worked: data.gear, didnt: [] } : data.
       {data.nextTime && <aside class="post-extra-callout" data-optional-section><p class="eyebrow">NEXT TIME</p><p>{data.nextTime}</p></aside>}
       {data.changes && <aside class="post-extra-callout" data-optional-section><p class="eyebrow">WHAT I’D DO DIFFERENTLY</p><ul>{data.changes.map(change => <li>{change}</li>)}</ul></aside>}
       {(data.pros || data.cons) && <div class="post-pros-cons g12">
-        {data.pros && <section class="post-optional pros-section" data-optional-section><h2>Pros</h2><ul>{data.pros.map(item => <li>+ {item}</li>)}</ul></section>}
-        {data.cons && <section class="post-optional cons-section" data-optional-section><h2>Cons</h2><ul>{data.cons.map(item => <li>− {item}</li>)}</ul></section>}
+        {data.pros && <section class="post-optional pros-section" data-optional-section><h2>Good</h2><ul>{data.pros.map(item => <li>+ {item}</li>)}</ul></section>}
+        {data.cons && <section class="post-optional cons-section" data-optional-section><h2>Not so good</h2><ul>{data.cons.map(item => <li>− {item}</li>)}</ul></section>}
       </div>}
       {data.alternatives && <section class="review-alternatives" data-optional-section><h2>Alternatives</h2><p>{data.alternatives}</p></section>}
       {data.disclosure && <p class="table-caption review-disclosure" data-optional-section>{data.disclosure}</p>}
-      {data.link && <p data-optional-section><a href={data.link}>{data.link} ↗</a></p>}
+      {noteLink && <a class="note-link" href={data.link} data-optional-section><strong>{noteLink.host}{noteLink.pathname === '/' ? '' : noteLink.pathname}{noteLink.search}</strong><span aria-hidden="true">↗</span></a>}
       {data.photo && <figure class="post-optional" data-optional-section><img src={data.photo.src} alt={data.photo.alt} /></figure>}
     </div>
   </article>
-  {(previous || next) && <div class:list={[{ container: trip }]}><nav class="post-neighbors g12" aria-label="More posts">
+  {(previous || next) && <div class:list={[{ container: trip || build }]}><nav class="post-neighbors g12" aria-label="More posts">
     {previous && <a class="post-previous" href={postUrl(previous)}><span>← Previous</span><strong>{previous.data.title}</strong></a>}
     {next && <a class="post-next" href={postUrl(next)}><span>Next →</span><strong>{next.data.title}</strong></a>}
   </nav></div>}

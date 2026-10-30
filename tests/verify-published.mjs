@@ -19,6 +19,7 @@ try {
   for (const item of ['src', 'public', 'tests', 'scripts', 'docs', 'astro.config.mjs', 'package.json', 'package-lock.json', 'tsconfig.json', 'playwright.config.ts']) await cp(item, join(temp, item), { recursive: true });
   await symlink(resolve('node_modules'), join(temp, 'node_modules'), 'dir');
   await writeFile(join(temp, 'src/content/blog/published-control.md'), '---\ntitle: My First Post\ndate: 2020-01-01\nformat: note\ntopic: software\n---\nPublished control prose.\n');
+  await writeFile(join(temp, 'src/content/blog/phrase-control.md'), '---\ntitle: A My First Post Retrospective\ndate: 2019-01-01\nformat: note\ntopic: software\n---\nA published control.\n');
   const ports = await availablePortBlock();
   const result = spawnSync(process.execPath, ['scripts/verify.mjs'], { cwd: temp, stdio: 'inherit', env: publishedVerificationEnv(process.env, ports) });
   if (result.status !== 0) throw new Error(`Verification with a published post failed (exit ${result.status})`);

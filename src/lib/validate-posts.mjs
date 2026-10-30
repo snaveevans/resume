@@ -5,15 +5,19 @@ import { slug } from 'github-slugger';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkMdx from 'remark-mdx';
-import { isRequiredHeading } from './post-headings.mjs';
+import remarkGfm from 'remark-gfm';
+import { buildStepHeadings, isSectionHeading } from './post-headings.mjs';
 async function files(dir) {
   let entries; try { entries = await readdir(dir, { withFileTypes: true }); } catch (error) { if (error.code === 'ENOENT') return []; throw error; }
   return (await Promise.all(entries.map(e => e.isDirectory() ? files(join(dir, e.name)) : /\.(md|mdx)$/.test(e.name) ? [join(dir, e.name)] : []))).flat();
 }
 function meaningful(node) {
-  if (['html', 'mdxjsEsm', 'heading'].includes(node.type)) return false;
+  if (['mdxjsEsm', 'heading', 'definition', 'footnoteDefinition'].includes(node.type)) return false;
+  if (node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') return true;
+  if (node.type === 'html') return !!(node.value ?? '').replace(/<!--[\s\S]*?-->/g, '').trim();
   if (node.type === 'mdxFlowExpression' || node.type === 'mdxTextExpression') {
-    return !!(node.value ?? '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '').trim();
+    const value = (node.value ?? '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '').trim();
+    return !!value && !/^(?:null|true|false|undefined|\[\s*\]|''|"")$/.test(value);
   }
   if (node.children) return node.children.some(meaningful);
   return !!(node.value ?? '').trim();
@@ -28,16 +32,18 @@ export async function validatePosts() {
     const match = raw.match(/^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)([\s\S]*)$/);
     if (!match) throw new Error(`${file}: missing frontmatter`);
     let meta; try { meta = parse(match[1]); } catch (error) { throw new Error(`${file}: invalid frontmatter: ${error.message}`); }
+    if (meta?.draft === true) continue;
     let nodes;
-    try { const parser = unified().use(remarkParse); if (file.endsWith('.mdx')) parser.use(remarkMdx); nodes = parser.parse(match[2]).children; }
+    try { const parser = unified().use(remarkParse).use(remarkGfm); if (file.endsWith('.mdx')) parser.use(remarkMdx); nodes = parser.parse(match[2]).children; }
     catch (error) { throw new Error(`${file}: invalid Markdown: ${error.message}`); }
     if (meta?.format === 'note' && !nodes.some(n => n.type === 'paragraph' && meaningful(n))) throw new Error(`${file}: note requires prose`);
     if (['deep dive', 'build', 'trip', 'review'].includes(meta?.format)) {
-      const index = nodes.findIndex(node => isRequiredHeading(meta.format, node));
+      const steps = meta.format === 'build' ? buildStepHeadings(nodes) : new Set();
+      const index = nodes.findIndex(node => isSectionHeading(meta.format, node, steps));
       if (index < 0) throw new Error(`${file}: ${meta.format} requires its required section`);
       const depth = nodes[index].depth;
       const content = [];
-      for (const n of nodes.slice(index + 1)) { if (n.type === 'heading' && n.depth <= depth) break; content.push(n); }
+      for (const n of nodes.slice(index + 1)) { if (n.type === 'heading' && (n.depth <= depth || isSectionHeading(meta.format, n, steps))) break; content.push(n); }
       if (!content.some(meaningful)) throw new Error(`${file}: ${meta.format} required section must contain text`);
     }
   }

@@ -18,7 +18,7 @@ function safeGlob(base: string) {
 
 const postSchema = z.object({
   title: z.string().trim().min(1),
-  date: z.coerce.date(),
+  date: z.union([z.string().trim().min(1), z.date()]).pipe(z.coerce.date()),
   format: z.enum(['deep dive', 'build', 'trip', 'review', 'note']),
   topic: z.string().trim().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   description: z.string().trim().min(1).optional(),
