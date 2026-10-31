@@ -16,7 +16,7 @@ async function availablePortBlock() {
 }
 const temp = await mkdtemp(join(tmpdir(), 'resume-verify-published-'));
 try {
-  for (const item of ['src', 'public', 'tests', 'scripts', 'docs', 'astro.config.mjs', 'package.json', 'package-lock.json', 'tsconfig.json', 'playwright.config.ts']) await cp(item, join(temp, item), { recursive: true });
+  for (const item of ['src', 'public', 'tests', 'scripts', 'docs', 'astro.config.mjs', 'wrangler.jsonc', 'package.json', 'package-lock.json', 'tsconfig.json', 'playwright.config.ts']) await cp(item, join(temp, item), { recursive: true });
   await symlink(resolve('node_modules'), join(temp, 'node_modules'), 'dir');
   await writeFile(join(temp, 'src/content/blog/published-control.md'), '---\ntitle: My First Post\ndate: 2020-01-01\nformat: note\ntopic: software\n---\nPublished control prose.\n');
   await writeFile(join(temp, 'src/content/blog/phrase-control.md'), '---\ntitle: A My First Post Retrospective\ndate: 2019-01-01\nformat: note\ntopic: software\n---\nA published control.\n');

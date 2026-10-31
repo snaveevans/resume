@@ -27,7 +27,7 @@ const port = Number(env.VERIFY_PORT_BASE || 18788);
 
 const children = [];
 function server(dir, port) {
-  const p = spawn(process.execPath, [resolve('node_modules/wrangler/bin/wrangler.js'), 'pages', 'dev', dir, '--port', String(port), '--ip', '127.0.0.1', '--inspector-port', String(port + 10000)], { env, stdio: 'inherit', detached: process.platform !== 'win32' });
+  const p = spawn(process.execPath, [resolve('node_modules/wrangler/bin/wrangler.js'), 'dev', '--assets', dir, '--port', String(port), '--ip', '127.0.0.1', '--inspector-port', String(port + 10000)], { env, stdio: 'inherit', detached: process.platform !== 'win32' });
   children.push(p); return p;
 }
 async function ready(port, child) {

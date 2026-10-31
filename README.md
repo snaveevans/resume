@@ -1,8 +1,10 @@
 # tylerevans.co
 
-An Astro site for Tyler Evans's work and writing, built as static files for Cloudflare Pages.
+An Astro site for Tyler Evans's work and writing, built as static files and served from `dist/` by a Cloudflare Worker with static assets at https://www.tylerevans.co.
 
 Run `npm ci`, then `npm run dev` for local development. `npm run build` writes production output to `dist/`; `npm run build:fixtures` builds the isolated test site. Run `npm run verify` for the full verification suite.
+
+CI (`.github/workflows/ci.yml`) runs `npm run verify` on every pull request to `main`. A push to `main` runs it again and, if it passes, deploys with `wrangler deploy` using the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets of the `production` environment. `tylerevans.co` (no `www`) is served by a second Worker in `redirect/` that sends every request to the same path on `www.tylerevans.co`.
 
 Posts live in `src/content/blog/` as Markdown or MDX. Each post needs a title, date, format and topic. If no description is supplied, the post title is used as its metadata and RSS description. Supported formats are `deep dive`, `build`, `trip`, `review`, and `note`. Deep dives need a TL;DR heading, builds need a numbered step heading, trips need a day heading, reviews need a verdict heading, and notes need prose. Mark unpublished posts with `draft: true`; future-dated posts are excluded until their date.
 
