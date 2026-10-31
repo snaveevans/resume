@@ -66,4 +66,4 @@ The centered container is at most 1200px wide, with 32px side gutters and 12 col
 - Use the full footer on home and the compact footer elsewhere.
 - Work uses static role detail; per-role technology sits in columns 10–12 and Skills appears below.
 - Omit Weber State student jobs from Work. Use LinkedIn job titles and keep the approved home lead wording.
-- Output is fully static for Cloudflare Pages, without a Cloudflare adapter; old blog redirects live in `public/_redirects`.
+- Output is fully static and served by a Cloudflare Worker with static assets (`wrangler.jsonc`), without a Cloudflare adapter; old blog redirects live in `public/_redirects`.

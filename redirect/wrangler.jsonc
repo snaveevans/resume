@@ -1,0 +1,7 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "resume-apex-redirect",
+  "main": "worker.js",
+  "compatibility_date": "2025-06-14",
+  "routes": [{ "pattern": "tylerevans.co", "custom_domain": true }],
+}
