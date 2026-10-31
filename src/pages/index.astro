@@ -1,26 +1,31 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import Base from '../layouts/Base.astro';
+import Ridge from '../components/Ridge.astro';
+import Facts from '../components/Facts.astro';
+import { roles, plarea, links } from '../data/resume';
+import { publishedPosts, postUrl, displayDate } from '../lib/posts';
+const posts = await publishedPosts();
 ---
-
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <h1>Hello!</h1>
-      <p>
-        Welcome to my site. As of June 15th, 2025 this is a work in progress. I
-        will be adding some blogs about my programming, shooting, drones,
-        gardening and anything else I decide to pick up. I'll also show case
-        some of my garage coding projects I'm working on.
-      </p>
-    </main>
-    <Footer />
-  </body>
-</html>
+<Base title="Home" description="Staff engineer and front-end architect. Building web platforms in TypeScript, writing about the craft, starting Plarea." wide>
+  <section class="container home-hero g12" aria-labelledby="home-title">
+    <h1 id="home-title">Tyler Evans</h1>
+    <p>Staff engineer and front-end architect. Building web platforms in TypeScript, writing about the craft, starting <a href="/plarea">Plarea</a>.</p>
+  </section>
+  <Ridge />
+  <Facts home />
+  <section class="container home-sections g12" aria-label="Sections">
+    <section class="home-writing">
+      <div class="section-head"><h2>Writing</h2><a href="/writing">all →</a></div>
+      {posts.length === 0 ? <p class="empty-state">Nothing is published yet.</p> : posts.slice(0, 3).map(post => <a class="home-post" href={postUrl(post)}><span>{displayDate(post.data.date)} · {post.data.topic}</span><strong>{post.data.title}</strong></a>)}
+    </section>
+    <section class="home-work">
+      <div class="section-head"><h2>Work</h2><a href="/work">résumé →</a></div>
+      {roles.slice(0, 3).map(role => <div class="role-row"><div><h3>{role.title}</h3><p>{role.company}</p></div><span>{role.dates}</span></div>)}
+    </section>
+    <section class="accent-block g12" aria-label="Plarea">
+      <div><p class="eyebrow">PLAREA</p><h2>{plarea.lead}</h2></div>
+      <p>{plarea.description}</p>
+      <a class="light-button" href={links.plarea}>plarea.dev ↗</a>
+    </section>
+  </section>
+</Base>

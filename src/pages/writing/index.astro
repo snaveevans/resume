@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+import WritingIndex from '../../components/WritingIndex.astro';
+import { publishedPosts } from '../../lib/posts';
+const posts = await publishedPosts();
+const topics = [...new Set(posts.map(post => post.data.topic))].sort();
+---
+<Base title="Writing" description="Writing by Tyler Evans"><WritingIndex posts={posts} allTopics={topics} /></Base>

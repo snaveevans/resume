@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro';
+import { plarea, links } from '../data/resume';
+---
+<Base title="Plarea" description="We make small worlds to get lost in, and thoughtful tools to help bring new ones to life.">
+  <div class="page-intro"><p class="eyebrow">/plarea</p><h1>Plarea</h1><p class="page-lead">{plarea.lead}</p></div>
+  <section class="accent-block g12" aria-label="Plarea Interactive"><div><p class="eyebrow">PLAREA INTERACTIVE</p><h2>Made for the curious.</h2></div><p>{plarea.description}</p><a class="light-button" href={links.plarea}>plarea.dev ↗</a></section>
+</Base>

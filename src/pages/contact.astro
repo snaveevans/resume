@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { links } from '../data/resume';
+---
+<Base title="Contact" description="Find Tyler Evans on GitHub and LinkedIn.">
+  <div class="page-intro"><p class="eyebrow">/contact</p><h1>Contact</h1></div>
+  <nav class="contact-links" aria-label="Elsewhere">
+    <a class="contact-row" href={links.github}><span>GitHub</span><span>snaveevans ↗</span></a>
+    <a class="contact-row" href={links.linkedin}><span>LinkedIn</span><span>Tyler Evans ↗</span></a>
+  </nav>
+</Base>

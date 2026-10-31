@@ -1,0 +1,11 @@
+---
+import Base from '../../../layouts/Base.astro';
+import WritingIndex from '../../../components/WritingIndex.astro';
+import { publishedPosts } from '../../../lib/posts';
+export async function getStaticPaths() {
+  const posts = await publishedPosts(); const topics = [...new Set(posts.map(post => post.data.topic))].sort();
+  return topics.map(topic => ({ params: { topic }, props: { topic, posts: posts.filter(post => post.data.topic === topic), topics } }));
+}
+const { topic, posts, topics } = Astro.props;
+---
+<Base title={`Writing: ${topic}`} description={`Writing about ${topic} by Tyler Evans`}><WritingIndex {posts} {topic} allTopics={topics} /></Base>

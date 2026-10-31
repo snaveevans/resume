@@ -26,3 +26,14 @@ pnpm-debug.log*
 # wrangler files
 .wrangler
 .dev.vars*
+
+# verification outputs
+fixture-dist/
+test-results/
+playwright-report/
+.verify-state/
+
+# Astro content cache
+.astro-cache/
+
+empty-dist/

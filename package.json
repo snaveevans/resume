@@ -9,20 +9,33 @@
     "preview": "astro build && wrangler pages dev",
     "astro": "astro",
     "deploy": "astro build && wrangler pages deploy",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "verify": "node scripts/verify.mjs",
+    "build:fixtures": "RESUME_TEST_FIXTURES=1 astro build",
+    "build:empty": "RESUME_TEST_EMPTY=1 astro build"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.5.4",
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.4.1",
     "astro": "^5.9.3",
-    "sharp": "^0.34.2"
+    "sharp": "^0.34.2",
+    "yaml": "2.9.1",
+    "remark-parse": "11.0.0",
+    "unified": "11.0.5",
+    "remark-mdx": "3.1.0",
+    "remark-gfm": "4.0.1",
+    "github-slugger": "2.0.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1",
     "@types/node": "^24.0.1",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
-    "wrangler": "^4.20.0"
+    "typescript": "^5.9.3",
+    "wrangler": "^4.20.0",
+    "parse5": "7.3.0"
   }
 }
