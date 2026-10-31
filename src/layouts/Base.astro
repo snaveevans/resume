@@ -14,7 +14,10 @@ const canonical = new URL(notFound ? '/404.html' : Astro.url.pathname, Astro.sit
     <title>{title} · Tyler Evans</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical.href} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/emblem-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/emblem-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/emblem-180.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={`${title} · Tyler Evans`} />
