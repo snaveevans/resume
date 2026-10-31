@@ -145,7 +145,7 @@ test('S-21 optional sections absent for minimal posts', async ({ page }) => {
     }
     if (slug === 'review') {
       await expect(page.locator('.review-results table')).toContainText('Fixture result'); await expect(page.locator('.review-results .table-caption')).toContainText('Fixture test conditions');
-      await expect(page.locator('.post-heading img[alt="Review photo"]')).toBeVisible(); await expect(page.locator('aside.post-callout.verdict')).toContainText('Fixture verdict in context');
+      await expect(page.locator('.post-heading img[alt="Review photo"]')).toBeVisible(); await expect(page.locator('aside.post-callout.verdict')).toContainText('Fixture verdict in context'); await expect(page.locator('aside.post-callout.verdict a')).toHaveCSS('color', 'rgb(244, 239, 228)');
       await expect(page.locator('.review-results td:last-child').first()).toHaveCSS('text-align', 'right');
       for (const text of ['Fixture good use', 'Fixture poor use', '$15', 'Fixture alternative', 'Fixture disclosure']) await expect(page.locator('main')).toContainText(text);
       const specsHeading = await page.locator('.review-specs h2').boundingBox(), contextHeading = await page.locator('.review-body h2').first().boundingBox(), contextParagraph = await page.locator('.review-body p').first().boundingBox();

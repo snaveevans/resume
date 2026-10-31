@@ -21,4 +21,4 @@ Review context.
 
 ## Verdict
 
-Fixture verdict in context.
+Fixture verdict in [context](https://example.com/verdict).
