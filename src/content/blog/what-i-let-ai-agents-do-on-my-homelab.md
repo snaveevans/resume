@@ -50,7 +50,7 @@ On Proxmox, the bot has a user with no password, so it can't log in to the GUI. 
 
 The network side was the interesting part. I didn't want to route my LAN to the bot, and I definitely didn't want an agent installed on the hypervisor. So the EliteDesk became a Tailscale subnet router that advertises exactly one `/32`, the Proxmox host, and the bot's node can open only the Proxmox API port on it.
 
-My favorite catch of the week came here. My tailnet policy had an old allow-all grant with source `*`. In Tailscale, `*` includes tagged nodes. So the moment I tagged the bot's machine, it would have inherited my entire tailnet, and all my careful `/32` work would have meant nothing. Changing that grant from `*` to `autogroup:member` closed it. If you have an old default ACL lying around, go check it.
+One good catch came here. My tailnet policy had an old allow-all grant with source `*`. In Tailscale, `*` includes tagged nodes. So the moment I tagged the bot's machine, it would have inherited my entire tailnet, and all my careful `/32` work would have meant nothing. Changing that grant from `*` to `autogroup:member` closed it. If you have an old default ACL lying around, go check it.
 
 I also made my own mistakes there. The first auth key I made wasn't tagged, so the bot's machine joined as one of *my* devices, with all my access. Then, while fixing that, I put the bot's tag on the EliteDesk instead of the bot's node. Biscuit noticed the router suddenly carrying its tag and flagged it before anything relied on it.
 
