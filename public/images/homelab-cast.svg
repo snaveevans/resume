@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" role="img" aria-labelledby="t d" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="14">
+  <title id="t">Who touches what</title>
+  <desc id="d">Me, Biscuit, four Grok Build agents and Codex work through the GitHub repo. GitHub jobs run on the EliteDesk runner, which talks to Proxmox and Jellyfin. Biscuit reaches only the Proxmox API, read-only.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1e2320"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#a34a26"/></marker>
+  </defs>
+  <rect width="760" height="420" fill="#e6e2d6"/>
+  <g fill="#d8d3c3" stroke="#1e2320" stroke-width="2">
+    <rect x="20" y="30" width="190" height="52"/>
+    <rect x="20" y="130" width="190" height="52"/>
+    <rect x="20" y="230" width="190" height="52"/>
+    <rect x="20" y="330" width="190" height="52"/>
+    <rect x="285" y="130" width="190" height="52"/>
+    <rect x="285" y="250" width="190" height="52"/>
+    <rect x="550" y="190" width="190" height="52"/>
+    <rect x="550" y="300" width="190" height="52"/>
+  </g>
+  <g fill="#1e2320" text-anchor="middle">
+    <text x="115" y="61">Me</text>
+    <text x="115" y="154">Biscuit bot</text><text x="115" y="172" font-size="12" fill="#4e5650">remote box</text>
+    <text x="115" y="254">Grok Build ×4</text><text x="115" y="272" font-size="12" fill="#4e5650">on my Mac</text>
+    <text x="115" y="361">Codex</text>
+    <text x="380" y="154">GitHub repo</text><text x="380" y="172" font-size="12" fill="#4e5650">PRs, plan + apply jobs</text>
+    <text x="380" y="274">EliteDesk runner</text><text x="380" y="292" font-size="12" fill="#4e5650">Tailscale subnet router</text>
+    <text x="645" y="214">Proxmox API</text><text x="645" y="232" font-size="12" fill="#4e5650">one /32, one port</text>
+    <text x="645" y="324">Jellyfin API</text><text x="645" y="342" font-size="12" fill="#4e5650">key from main only</text>
+  </g>
+  <g fill="none" stroke="#1e2320" stroke-width="2">
+    <path d="M210 56H247M210 156H247M210 256H247M210 356H247M247 56V356"/>
+  </g>
+  <g fill="none" stroke="#1e2320" stroke-width="2" marker-end="url(#a)">
+    <path d="M247 156H283"/>
+    <path d="M380 182V248"/>
+    <path d="M475 266H512V225H548"/>
+    <path d="M475 284H512V326H548"/>
+  </g>
+  <g fill="none" stroke="#a34a26" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#r)">
+    <path d="M115 182V205Q115 214 125 214H283Q292 214 292 224V248"/>
+  </g>
+  <g font-size="12" fill="#1e2320">
+    <text x="255" y="120">PRs, reviews, merges</text>
+    <text x="218" y="48">secrets, sudo</text>
+    <text x="560" y="278" fill="#a34a26">bot: read-only, via runner</text>
+  </g>
+</svg>

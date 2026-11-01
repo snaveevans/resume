@@ -15,5 +15,5 @@ export const roles: readonly Role[] = [
   { title: 'Help Desk Tech', company: 'Desert Mutual Benefits Administrators', dates: 'May 2012 – May 2015' },
 ];
 export const education = { degree: 'Bachelor of Applied Science (B.A.Sc.), Computer Science', school: 'Weber State University', dates: '2008 – 2015' } as const;
-export const links = { github: 'https://github.com/snaveevans', linkedin: 'https://www.linkedin.com/in/tyler-evans-57392893', plarea: 'https://www.plarea.dev' } as const;
+export const links = { github: 'https://github.com/snaveevans', linkedin: 'https://www.linkedin.com/in/tyler-evans-57392893', x: 'https://x.com/snaveevans116', plarea: 'https://www.plarea.dev' } as const;
 export const plarea = { lead: 'We make small worlds to get lost in, and thoughtful tools to help bring new ones to life.', description: 'Plarea is a home for experiments with heart: games that reward a second thought and tools that put creative control in your hands.' } as const;
