@@ -66,7 +66,7 @@ Given /plarea, When it loads, Then it shows a heading, a lead from Plarea's own 
 
 ### S-15 Contact and 404
 
-Given /contact, When it loads, Then GitHub and LinkedIn links appear as rows. Given an unknown URL, When requested, Then the response is 404 with the ridge, the heading "Off trail" and a link home.
+Given /contact, When it loads, Then GitHub, LinkedIn and X links appear as rows. Given an unknown URL, When requested, Then the response is 404 with the ridge, the heading "Off trail" and a link home.
 
 ### S-16 Old blog URLs
 
@@ -129,4 +129,5 @@ And a post's metadata has `og:type` article and its published time; a post with 
 ## History
 
 - On 2026-10-31 the owner approved S-27, the narrow S-04 test adaptation excluding JavaScript-only controls from the main-text parity comparison, the canShare gate and the "Couldn't share link" announcement.
+- S-15 changed on 2026-10-31, approved by the owner: /contact also lists X (https://x.com/snaveevans116) as a row. Previous wording: "Given /contact, When it loads, Then GitHub and LinkedIn links appear as rows."
 - S-23 changed on 2026-10-30, approved by the owner in the /goal text (resolves a deferred finding): drafts missing a required section no longer fail the build. Previous wording: "Given a post with an unknown format, a missing date, or a format's required section missing, When the site is built, Then the build fails and names the file."
