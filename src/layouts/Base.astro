@@ -2,9 +2,10 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-interface Props { title: string; wide?: boolean; description: string; notFound?: boolean; }
-const { title, wide = false, notFound = false, description } = Astro.props;
+interface Props { title: string; wide?: boolean; description: string; notFound?: boolean; article?: { published: Date }; image?: { src: string; alt: string }; }
+const { title, wide = false, notFound = false, description, article, image } = Astro.props;
 const canonical = new URL(notFound ? '/404.html' : Astro.url.pathname, Astro.site ?? 'https://www.tylerevans.co');
+const imageUrl = image && new URL(image.src, canonical).href;
 ---
 <!doctype html>
 <html lang="en">
@@ -19,11 +20,13 @@ const canonical = new URL(notFound ? '/404.html' : Astro.url.pathname, Astro.sit
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/emblem-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/emblem-180.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    {article && <meta property="article:published_time" content={article.published.toISOString()} />}
     <meta property="og:title" content={`${title} · Tyler Evans`} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical.href} />
-    <meta name="twitter:card" content="summary" />
+    {image && <><meta property="og:image" content={imageUrl} /><meta property="og:image:alt" content={image.alt} /><meta name="twitter:image" content={imageUrl} /></>}
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={`${title} · Tyler Evans`} />
     <meta name="twitter:description" content={description} />
     <link rel="alternate" type="application/rss+xml" title="Tyler Evans — Writing" href="/rss.xml" />

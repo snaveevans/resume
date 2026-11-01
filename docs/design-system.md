@@ -43,6 +43,7 @@ The centered container is at most 1200px wide, with 32px side gutters and 12 col
 - Header: brand plus `/writing`, `/work`, `/about`, `/plarea`, `/contact`; mark the current section visually and with `aria-current`. Home and 404 have no current link.
 - Rules: 2px ink for section and header divisions; 1px stone-500 for rows; 4px rust for code tops and the ridge baseline. Keyboard focus has a visible 2px rust outline.
 - Section heads pair a condensed h2 with a mono text link. Post and role rows use item typography, mono metadata and hairline dividers. Buttons are square, at least 48px tall, with mono labels.
+- Share: post-only links and capability-dependent controls use mono labels, square 48px minimum targets and an ink top rule, without an accent block.
 - The home ridge uses stone-400 and sage with a rust baseline; its facts strip uses inverse colors. Accent blocks use rust with stone-100 text, at most one per page.
 - Code blocks use the code palette above, a 4px rust top rule and an optional filename caption. Callouts use the surface token. Tables have mono headers, a 2px header rule and 1px row rules.
 - The full footer is used on home; inner pages use the compact inverse footer. The public email and other unsupplied elements are omitted rather than represented with placeholders.

@@ -1,6 +1,6 @@
 # Scenarios
 
-Approved Given/When/Then scenarios for tylerevans.co, S-01 to S-26. Every scenario has a test whose title contains its ID (`tests/site.spec.ts`, `tests/pages.spec.ts`, `tests/writing.spec.ts`; S-23 in `tests/build.test.mjs`). Change a scenario only with the owner's approval, and never edit a test assertion to make it pass. Viewports: desktop 1280, phone 390.
+Approved Given/When/Then scenarios for tylerevans.co, S-01 to S-27. Every scenario has a test whose title contains its ID (`tests/site.spec.ts`, `tests/pages.spec.ts`, `tests/writing.spec.ts`; S-23 in `tests/build.test.mjs`). Change a scenario only with the owner's approval, and never edit a test assertion to make it pass. Viewports: desktop 1280, phone 390.
 
 ## Site shell
 
@@ -114,7 +114,20 @@ Given the production build, When /rss.xml and the sitemap are requested, Then bo
 
 Given a post marked draft or dated after the build date, When the production site is built, Then it appears nowhere: no page, listing, prev/next link, RSS entry or sitemap entry.
 
+### S-27 Share links
+
+Given a published post (any of the five formats)
+When it loads, with or without JavaScript
+Then it offers share links to X, Facebook, Reddit, LinkedIn and Email. Each carries the post's canonical `https://www.tylerevans.co/writing/<slug>/` address; X, Reddit and Email also carry the post's title, exactly as written even when it contains characters such as &, #, quotes or non-ASCII letters.
+
+And with JavaScript, a "Copy URL" button appears when the clipboard API exists and a "Share…" button appears when the browser supports native sharing. Clicking Copy puts the canonical URL on the clipboard and announces "Link copied" to assistive technology; if copying fails it announces "Couldn't copy link" instead. Cancelling the native share sheet does nothing and shows no error. The "Share…" button is shown only when the browser does not report that it cannot share this address, and if the share sheet fails for any reason other than being cancelled, "Couldn't share link" is announced. Without JavaScript neither button is visible.
+
+And pages that are not posts (home, /writing, /work, /about, /plarea, /contact, topic pages, 404) have no post-sharing controls; their existing GitHub and LinkedIn profile links are unaffected.
+
+And a post's metadata has `og:type` article and its published time; a post with a hero image exposes it as an absolute `og:image` on https://www.tylerevans.co with `twitter:card` `summary_large_image`; a post without a hero has no `og:image` and keeps `twitter:card` `summary`. Non-post pages keep their current metadata.
+
 ## History
 
+- On 2026-10-31 the owner approved S-27, the narrow S-04 test adaptation excluding JavaScript-only controls from the main-text parity comparison, the canShare gate and the "Couldn't share link" announcement.
 - S-15 changed on 2026-10-31, approved by the owner: /contact also lists X (https://x.com/snaveevans116) as a row. Previous wording: "Given /contact, When it loads, Then GitHub and LinkedIn links appear as rows."
 - S-23 changed on 2026-10-30, approved by the owner in the /goal text (resolves a deferred finding): drafts missing a required section no longer fail the build. Previous wording: "Given a post with an unknown format, a missing date, or a format's required section missing, When the site is built, Then the build fails and names the file."
