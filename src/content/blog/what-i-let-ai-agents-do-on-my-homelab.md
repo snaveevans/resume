@@ -4,6 +4,9 @@ date: 2026-10-30
 format: deep dive
 topic: homelab
 description: "One bot, four local agents, and Codex got my Proxmox homelab to apply-on-merge in a day. I kept the secrets, the sudo steps, and the merge."
+hero:
+  src: /images/homelab-agents-hero.png
+  alt: "An illustrated desk scene. A man watches a monitor showing a pull request with plan, checks, merge and apply all green, while robot helpers named Biscuit, Codex and four numbered Grok Build agents look on. A sticky note reads: What I kept: all secrets, every sudo command, every merge."
 onThisPage: true
 ---
 
