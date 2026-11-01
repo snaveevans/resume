@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import { join } from 'node:path';
+import { writeFile } from 'node:fs/promises';
 const port = Number(process.env.VERIFY_PORT_BASE || 18788);
 const prod = `http://127.0.0.1:${port}`;
 const fixture = `http://127.0.0.1:${port + 1}`;
@@ -249,4 +250,152 @@ test('S-26 drafts and future posts are absent', async () => {
       expect(content.toString('utf8')).not.toMatch(/fixture[- ](?:draft|future)/i);
     }
   } finally { await rm(build.temp, { recursive: true, force: true }); }
+});
+
+test('S-27 share links and post metadata', async ({ browser, page }) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  const plain = await noJs.newPage();
+  const enabled = await browser.newContext();
+  await enabled.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText: async (value: string) => { (window as any).copied = value; } }, configurable: true });
+    Object.defineProperty(navigator, 'share', { value: async (value: unknown) => { (window as any).shared = value; throw new DOMException('Cancelled', 'AbortError'); }, configurable: true });
+  });
+  const interactive = await enabled.newPage();
+  const expectedHrefs = (url: string, title: string) => {
+    const u = encodeURIComponent(url), t = encodeURIComponent(title);
+    return [`https://x.com/intent/post?url=${u}&text=${t}`, `https://www.facebook.com/sharer/sharer.php?u=${u}`, `https://www.reddit.com/submit?url=${u}&title=${t}`, `https://www.linkedin.com/sharing/share-offsite/?url=${u}`, `mailto:?subject=${t}&body=${u}`];
+  };
+  try {
+    for (const [slug, title] of [['deep-dive', 'Fixture Deep Dive'], ['build', 'Fixture Build'], ['trip', 'Fixture Trip'], ['review', 'Fixture Review'], ['note', 'Fixture Note']]) {
+      const canonical = `https://www.tylerevans.co/writing/fixture-${slug}/`;
+      await plain.goto(`${fixture}/writing/fixture-${slug}`);
+      const share = plain.locator('.post-share');
+      await expect(share).toBeVisible();
+      await expect(share.locator('a')).toHaveCount(5);
+      for (const name of ['Share on X (opens in new tab)', 'Share on Facebook (opens in new tab)', 'Share on Reddit (opens in new tab)', 'Share on LinkedIn (opens in new tab)', 'Share by Email']) await expect(share.getByRole('link', { name, exact: true })).toBeVisible();
+      expect(await share.locator('a').evaluateAll(els => els.map(el => el.getAttribute('href')))).toEqual(expectedHrefs(canonical, title));
+      await expect(share.locator('[data-js-only]')).toHaveCount(2);
+      for (const button of await share.locator('[data-js-only]').all()) await expect(button).toBeHidden();
+      await expect(plain.locator('link[rel="canonical"]')).toHaveAttribute('href', canonical);
+      await expect(plain.locator('meta[property="og:url"]')).toHaveAttribute('content', canonical);
+    }
+    const requests: string[] = [];
+    interactive.on('request', request => requests.push(request.url()));
+    await interactive.goto(`${fixture}/writing/fixture-note`);
+    await interactive.evaluate(() => document.fonts.ready);
+    expect(requests.every(url => new URL(url).origin === new URL(fixture).origin)).toBe(true);
+    const share = interactive.locator('.post-share');
+    await expect(share.getByRole('button', { name: 'Copy URL' })).toBeVisible();
+    await expect(share.getByRole('button', { name: 'Share…' })).toBeVisible();
+    await expect(share.locator('[aria-live]')).toHaveAttribute('aria-live', 'polite');
+    await expect(share.locator('[aria-live]')).toBeEmpty();
+    const errors: string[] = [], dialogs: string[] = [];
+    interactive.on('pageerror', error => errors.push(error.message));
+    interactive.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    interactive.on('dialog', dialog => { dialogs.push(dialog.message()); void dialog.dismiss(); });
+    await share.getByRole('button', { name: 'Share…' }).click();
+    expect(await interactive.evaluate(() => (window as any).shared)).toEqual({ title: 'Fixture Note', url: 'https://www.tylerevans.co/writing/fixture-note/' });
+    await interactive.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+    await interactive.waitForTimeout(150);
+    await expect(share.locator('[aria-live]')).toBeEmpty();
+    expect(errors).toEqual([]); expect(dialogs).toEqual([]);
+    await share.getByRole('button', { name: 'Copy URL' }).click();
+    expect(await interactive.evaluate(() => (window as any).copied)).toBe('https://www.tylerevans.co/writing/fixture-note/');
+    await expect(share.locator('[aria-live]')).toHaveText('Link copied');
+    await share.locator('[aria-live]').evaluate(node => { (window as any).announcements = []; new MutationObserver(() => (window as any).announcements.push(node.textContent)).observe(node, { childList: true, characterData: true, subtree: true }); });
+    await share.getByRole('button', { name: 'Copy URL' }).click();
+    await expect.poll(() => interactive.evaluate(() => (window as any).announcements)).toEqual(['', 'Link copied']);
+    await interactive.evaluate(() => { (window as any).shared = undefined; });
+    await share.getByRole('button', { name: 'Share…' }).click();
+    expect(await interactive.evaluate(() => (window as any).shared)).toEqual({ title: 'Fixture Note', url: 'https://www.tylerevans.co/writing/fixture-note/' });
+    await expect(share.locator('[aria-live]')).toBeEmpty();
+    await interactive.reload();
+    const snapshot = (p: typeof plain) => p.locator('main').evaluate(el => { const clone = el.cloneNode(true) as HTMLElement; clone.querySelectorAll('[data-js-only]').forEach(node => node.remove()); return clone.outerHTML; });
+    expect(await snapshot(interactive)).toBe(await snapshot(plain));
+    await expect(interactive.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
+    await expect(interactive.locator('meta[property="article:published_time"]')).toHaveAttribute('content', '2025-05-01T00:00:00.000Z');
+    await expect(interactive.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary');
+    await expect(interactive.locator('meta[property="og:image"], meta[property="og:image:alt"], meta[name="twitter:image"]')).toHaveCount(0);
+    await page.goto(`${fixture}/writing/fixture-populated-build`);
+    await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
+    for (const selector of ['meta[property="og:image"]', 'meta[name="twitter:image"]']) await expect(page.locator(selector)).toHaveAttribute('content', 'https://www.tylerevans.co/test-media/hero.svg');
+    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute('content', 'Build hero');
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+    await expect(page.locator('meta[property="article:published_time"]')).toHaveAttribute('content', '2025-04-05T00:00:00.000Z');
+    for (const path of ['/', '/writing', '/work', '/about', '/plarea', '/contact', '/writing/topic/software', '/404.html']) {
+      await page.goto(fixture + path);
+      await expect(page.locator('.post-share')).toHaveCount(0);
+      await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'website');
+      await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary');
+      await expect(page.locator('meta[property^="article:"], meta[property="og:image"], meta[name="twitter:image"]')).toHaveCount(0);
+    }
+    const failure = await browser.newContext();
+    await failure.addInitScript(() => {
+      Object.defineProperty(navigator, 'clipboard', { value: { writeText: async () => { throw new Error('denied'); } }, configurable: true });
+      Object.defineProperty(navigator, 'share', { value: undefined, configurable: true });
+    });
+    try {
+      const failPage = await failure.newPage(); await failPage.goto(`${fixture}/writing/fixture-note`);
+      await expect(failPage.getByRole('button', { name: 'Share…' })).toBeHidden();
+      await failPage.getByRole('button', { name: 'Copy URL' }).click();
+      await expect(failPage.locator('.post-share [aria-live]')).toHaveText("Couldn't copy link");
+    } finally { await failure.close(); }
+    const unavailable = await browser.newContext();
+    await unavailable.addInitScript(() => {
+      Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true });
+      Object.defineProperty(navigator, 'share', { value: undefined, configurable: true });
+    });
+    try {
+      const p = await unavailable.newPage(); await p.goto(`${fixture}/writing/fixture-note`);
+      for (const button of await p.locator('.post-share [data-js-only]').all()) await expect(button).toBeHidden();
+    } finally { await unavailable.close(); }
+    const shareFailure = await browser.newContext();
+    await shareFailure.addInitScript(() => {
+      Object.defineProperty(navigator, 'share', { value: async () => { throw new DOMException('Denied', 'NotAllowedError'); }, configurable: true });
+      Object.defineProperty(navigator, 'canShare', { value: () => true, configurable: true });
+    });
+    try {
+      const p = await shareFailure.newPage(); await p.goto(`${fixture}/writing/fixture-note`);
+      await p.getByRole('button', { name: 'Share…' }).click();
+      await expect(p.locator('.post-share [aria-live]')).toHaveText("Couldn't share link");
+    } finally { await shareFailure.close(); }
+    const shareBusy = await browser.newContext();
+    await shareBusy.addInitScript(() => {
+      Object.defineProperty(navigator, 'share', { value: async () => { throw new DOMException('Busy', 'InvalidStateError'); }, configurable: true });
+      Object.defineProperty(navigator, 'canShare', { value: () => true, configurable: true });
+    });
+    try {
+      const p = await shareBusy.newPage(); await p.goto(`${fixture}/writing/fixture-note`);
+      const errors: string[] = []; p.on('pageerror', error => errors.push(error.message)); p.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+      await p.getByRole('button', { name: 'Share…' }).click();
+      await p.waitForTimeout(150);
+      await expect(p.locator('.post-share [aria-live]')).toBeEmpty();
+      expect(errors).toEqual([]);
+    } finally { await shareBusy.close(); }
+    const cannotShare = await browser.newContext();
+    await cannotShare.addInitScript(() => {
+      Object.defineProperty(navigator, 'share', { value: async () => {}, configurable: true });
+      Object.defineProperty(navigator, 'canShare', { value: () => false, configurable: true });
+    });
+    try {
+      const p = await cannotShare.newPage(); await p.goto(`${fixture}/writing/fixture-note`);
+      await expect(p.locator('.post-share [data-share]')).toBeHidden();
+    } finally { await cannotShare.close(); }
+    const build = await isolatedBuild({ single: 'fixture-populated-build' });
+    try {
+      const file = join(build.temp, 'tests/fixtures/posts/fixture-populated-build.md');
+      const original = await readFile(file, 'utf8');
+      const titled = original.replace('title: Fixture Populated Build', 'title: \'Fish & #1 "café"\'');
+      expect(titled).not.toBe(original);
+      const edited = titled.replace('/test-media/hero.svg', 'media/hero.svg');
+      expect(edited).not.toBe(titled);
+      await writeFile(file, edited);
+      const result = spawnSync(process.execPath, [resolve('node_modules/astro/astro.js'), 'build'], { cwd: build.temp, env: { ...process.env, ASTRO_TELEMETRY_DISABLED: '1', RESUME_TEST_FIXTURES: '1', RESUME_FIXTURE_ONLY: 'fixture-populated-build' }, encoding: 'utf8' });
+      expect(result.status, result.stdout + result.stderr).toBe(0);
+      await page.setContent(await readFile(join(build.out, 'writing/fixture-populated-build/index.html'), 'utf8'));
+      const canonical = 'https://www.tylerevans.co/writing/fixture-populated-build/';
+      expect(await page.locator('.post-share a').evaluateAll(els => els.map(el => el.getAttribute('href')))).toEqual(expectedHrefs(canonical, 'Fish & #1 "café"'));
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', canonical + 'media/hero.svg');
+    } finally { await rm(build.temp, { recursive: true, force: true }); }
+  } finally { await noJs.close(); await enabled.close(); }
 });

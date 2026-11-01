@@ -3,7 +3,8 @@ import { mkdir, rm, readFile, access } from 'node:fs/promises';
 import { resolve } from 'node:path';
 const gate = process.env.VERIFY_GATE || 'final';
 if (!['1', '2', 'final'].includes(gate)) throw new Error('VERIFY_GATE must be 1, 2, or final');
-const max = gate === '1' ? 5 : gate === '2' ? 16 : 26;
+const TOTAL = 27;
+const max = gate === '1' ? 5 : gate === '2' ? 16 : TOTAL;
 const state = resolve('.verify-state');
 await mkdir(state, { recursive: true });
 // Content-layer caches can hold Markdown rendered by older plugins, so always build clean.
@@ -58,7 +59,7 @@ try {
     for (const child of suite.suites || []) visit(child);
   }
   for (const suite of report.suites) visit(suite);
-  for (let id = 1; id <= 26; id++) {
+  for (let id = 1; id <= TOTAL; id++) {
     if (id === 23) continue;
     if (!found.has(id)) { console.error(`Missing S-${String(id).padStart(2, '0')}`); failed = true; }
     else if (!found.get(id)) { console.log(`S-${String(id).padStart(2, '0')}: ${id <= max ? 'FAIL' : 'pending'}`); if (id <= max) failed = true; }

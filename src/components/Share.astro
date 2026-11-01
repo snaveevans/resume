@@ -1,0 +1,92 @@
+---
+import { shareLinks } from '../lib/share';
+interface Props {
+  url: string;
+  title: string;
+}
+const { url, title } = Astro.props;
+---
+
+<section
+  class="post-share g12"
+  aria-labelledby="share-heading"
+  data-url={url}
+  data-title={title}
+>
+  <div class="post-share-content">
+    <h2 id="share-heading">Share</h2>
+    <div class="post-share-controls">
+      {
+        shareLinks(url, title).map(({ label, href }) => (
+          <a
+            href={href}
+            target={label === 'Email' ? undefined : '_blank'}
+            rel={label === 'Email' ? undefined : 'noopener noreferrer'}
+          >
+            <span class="visually-hidden">
+              {label === 'Email' ? 'Share by ' : 'Share on '}
+            </span>
+            {label}
+            {label !== 'Email' && (
+              <>
+                <span class="visually-hidden"> (opens in new tab)</span>{' '}
+                <span aria-hidden="true">↗</span>
+              </>
+            )}
+          </a>
+        ))
+      }
+      <button type="button" hidden data-js-only data-copy>Copy URL</button>
+      <button type="button" hidden data-js-only data-share>Share…</button>
+    </div>
+    <span class="visually-hidden" aria-live="polite"></span>
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('.post-share').forEach((section) => {
+    const copy = section.querySelector<HTMLButtonElement>('[data-copy]');
+    const share = section.querySelector<HTMLButtonElement>('[data-share]');
+    const status = section.querySelector<HTMLElement>('[aria-live]');
+    const { url, title } = section.dataset;
+    if (!copy || !share || !status || !url || !title) return;
+    let announcement = 0;
+    const clear = () => {
+      announcement++;
+      status.textContent = '';
+    };
+    const announce = (message: string) => {
+      clear();
+      const current = announcement;
+      setTimeout(() => {
+        if (current === announcement) status.textContent = message;
+      }, 100);
+    };
+    if (navigator.clipboard?.writeText) {
+      copy.hidden = false;
+      copy.addEventListener('click', async () => {
+        clear();
+        try {
+          await navigator.clipboard.writeText(url);
+          announce('Link copied');
+        } catch {
+          announce("Couldn't copy link");
+        }
+      });
+    }
+    if (navigator.share && navigator.canShare?.({ title, url }) !== false) {
+      share.hidden = false;
+      share.addEventListener('click', async () => {
+        clear();
+        try {
+          await navigator.share({ title, url });
+        } catch (error) {
+          if (!(
+            error instanceof DOMException &&
+            (error.name === 'AbortError' || error.name === 'InvalidStateError')
+          ))
+            announce("Couldn't share link");
+        }
+      });
+    }
+  });
+</script>

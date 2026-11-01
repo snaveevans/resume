@@ -70,7 +70,9 @@ test('S-04 content and navigation work without JavaScript', async ({ browser }) 
     const url = new URL(route, base).href;
     await a.goto(url); await b.goto(url);
     await expect(b.locator('main')).toBeVisible();
-    expect(await b.locator('main').innerText()).toBe(await a.locator('main').innerText());
+    await expect(b.locator('[data-js-only]:visible')).toHaveCount(0);
+    const content = (page: typeof a) => page.locator('main').evaluate(el => { const nodes = Array.from(el.querySelectorAll<HTMLElement>('[data-js-only]')); const styles = nodes.map(node => [node.style.getPropertyValue('display'), node.style.getPropertyPriority('display')]); try { nodes.forEach(node => node.style.setProperty('display', 'none', 'important')); return (el as HTMLElement).innerText; } finally { nodes.forEach((node, index) => { const [value, priority] = styles[index]; if (value) node.style.setProperty('display', value, priority); else node.style.removeProperty('display'); }); } });
+    expect(await content(b)).toBe(await content(a));
     expect(await b.locator('a[href]').evaluateAll(els => els.map(el => el.getAttribute('href')))).toEqual(await a.locator('a[href]').evaluateAll(els => els.map(el => el.getAttribute('href'))));
   }
   await enabled.close(); await disabled.close();

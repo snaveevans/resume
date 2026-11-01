@@ -1,6 +1,8 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Share from '../../components/Share.astro';
+import { canonicalPostUrl } from '../../lib/share';
 import { publishedPosts, postUrl, displayDate, type Post } from '../../lib/posts';
 export async function getStaticPaths() {
   const posts = await publishedPosts();
@@ -15,7 +17,7 @@ const pageHeadings = headings.filter(h => h.depth === 2);
 const noteLink = data.link ? new URL(data.link) : undefined;
 const gear = Array.isArray(data.gear) ? { worked: data.gear, didnt: [] } : data.gear;
 ---
-<Base title={data.title} description={data.description ?? data.title} wide={trip || build}>
+<Base title={data.title} description={data.description ?? data.title} wide={trip || build} article={{ published: data.date }} image={data.hero}>
   <article class:list={['post', `format-${data.format.replace(' ', '-')}`]}>
     {trip ? <>
       <header class:list={['trip-cover', { 'trip-cover-plain': !data.hero }]}>
@@ -66,6 +68,7 @@ const gear = Array.isArray(data.gear) ? { worked: data.gear, didnt: [] } : data.
       {data.photo && <figure class="post-optional" data-optional-section><img src={data.photo.src} alt={data.photo.alt} /></figure>}
     </div>
   </article>
+  <div class:list={[{ container: trip || build }]}><Share url={canonicalPostUrl(post, Astro.site)} title={data.title} /></div>
   {(previous || next) && <div class:list={[{ container: trip || build }]}><nav class="post-neighbors g12" aria-label="More posts">
     {previous && <a class="post-previous" href={postUrl(previous)}><span>← Previous</span><strong>{previous.data.title}</strong></a>}
     {next && <a class="post-next" href={postUrl(next)}><span>Next →</span><strong>{next.data.title}</strong></a>}
